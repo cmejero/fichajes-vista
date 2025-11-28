@@ -1,0 +1,502 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
+<%@ page import="java.util.List"%>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alumno - Colegio Altair Sevilla</title>
+<link rel="stylesheet" href="Css/Estilo.css">
+<!-- Bootstrap CSS (solo una vez) -->
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet" crossorigin="anonymous">
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
+	rel="stylesheet">
+
+</head>
+
+<body>
+	<!-- HEADER -->
+	<header>
+
+		<div class="container-fluid ">
+			<div class="row">
+				<div class="col-md-2 col-sm-2 col-2"
+					style="padding-left: 0; padding-right: 0;">
+					<div class="logo">
+						<img class="logoAltair" src="Imagenes/logoAltair.jpg"
+							alt="Colegio Altair Sevilla">
+					</div>
+				</div>
+				<div class="col-md-8 col-sm-8 col-8">
+					<div class="row">
+						<div class="col-md-4 col-sm-4 col-4 alineacion" style="">
+							<a href="Index.jsp" class="letraNavegacion">INICIO</a>
+						</div>
+						<div class="col-md-4 col-sm-4 col-4 alineacion">
+							<a href="Asistencias.jsp" class="letraNavegacion">ASISTENCIAS</a>
+						</div>
+						<div class="col-md-4 col-sm-4 col-4 alineacion">
+							<a href="Alumno.jsp" class="letraNavegacion" style="color: #FFD43B; text-decoration: underline">ALUMNOS</a>
+						</div>
+					</div>
+
+
+				</div>
+				<div class="col-md-2 col-sm-2 col-2"></div>
+			</div>
+		</div>
+	</header>
+
+	<main
+		class="asistencia-main d-flex flex-column align-items-center justify-content-center ">
+		<section class="tabla-asistencia container shadow p-4 rounded ">
+			<div class="row">
+				<div class="col-12">
+					<h2 class="text-gestion">GESTION DE ALUMNOS</h2>
+				</div>
+			</div>
+
+			<!-- Botones de navegación siempre visibles -->
+			<div class="row d-flex justify-content-center">
+				<div class="col-12 d-flex justify-content-center mt-4 mb-2">
+					<button id="btnAgregarAlumno" class="boton-modificar">Agregar
+						alumno</button>
+					<button id="btnMatricularAlumno" class="boton-modificar"
+						style="margin-left: 18vw">Matricular</button>
+				</div>
+			</div>
+
+			<!-- Formulario Agregar Alumno (visible por defecto) -->
+			<div id="formAgregarAlumno" class="form-container mt-3">
+				<div class="row d-flex justify-content-center">
+					<div class="col-12 d-flex justify-content-center mb-3">
+						<h3 class="text-registrar mt-2">
+							<u>REGISTRAR NUEVO ALUMNO</u>
+						</h3>
+					</div>
+				</div>
+
+				<form id="formAlumno1" onsubmit="return guardarAlumno();">
+					<input type="hidden" name="accion" value="guardar">
+					<div class="row d-flex justify-content-center mb-4">
+						<div class="col-12 d-flex justify-content-center">
+							<label for="nombre" class="label-formulario"><strong>Nombre:</strong></label>
+							<input class="input-formulario2" type="text" id="nombre"
+								name="nombre" required> <label for="apellidos"
+								class="label-formulario"><strong>Apellidos:</strong></label> <input
+								class="input-formulario2" type="text" id="apellidos"
+								name="apellidos" required>
+						</div>
+					</div>
+
+					<div class="row d-flex justify-content-center mb-3">
+						<div class="col-12 d-flex justify-content-center">
+							<h4 class="datos">
+								<u>DATOS DE MATRICULACIÓN</u>
+							</h4>
+						</div>
+					</div>
+
+					<div class="row d-flex justify-content-center mb-4">
+						<div class="col-12 d-flex justify-content-center">
+							<label for="curso" class="label-formulario"><strong>Curso:</strong></label>
+							<select id="curso" name="curso" class="input-formulario" required>
+								<option value="">Seleccione...</option>
+								<option value="1">CSI</option>
+								<option value="2">CMI</option>
+								<option value="3">CMA</option>
+								<option value="4">CMGA</option>
+								<option value="5">CSAF</option>
+								<option value="6">CSAU</option>
+								<option value="7">CSD</option>
+								<option value="8">CSE</option>
+							</select> <label for="grupo" class="label-formulario"><strong>Grupo:</strong></label>
+							<select id="grupo" name="grupo" class="input-formulario" required>
+								<option value="">Seleccione...</option>
+							</select> <label for="anioEscolar" class="label-formulario"><strong>Año
+									escolar:</strong></label> <select id="anioEscolar" name="anioEscolar"
+								class="input-formulario" required>
+								<option value="">Seleccione...</option>
+							</select> <label for="uidLlave" class="label-formulario"><strong>UID:</strong></label>
+							<input class="input-formulario" type="text" id="uidLlave"
+								name="uidLlave" required>
+						</div>
+					</div>
+
+					<div class="row d-flex justify-content-center mb-3">
+						<div class="col-12 d-flex justify-content-center">
+							<button type="submit" class="boton">Guardar Alumno</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+
+
+
+			<div id="formMatricular" class="form-container mt-3"
+				style="display: none;">
+				<div class="row d-flex justify-content-center">
+					<div class="col-12 d-flex justify-content-center mb-3">
+						<h3 class="text-registrar mt-2">
+							<u>REGISTRAR NUEVA MATRÍCULA</u>
+						</h3>
+					</div>
+				</div>
+
+				<form id="formAlumno2" onsubmit="return guardarMatriculacion();">
+					<input type="hidden" name="accion" value="guardar">
+					<!-- Guardamos el ID del alumno seleccionado -->
+					<input type="hidden" id="idAlumnoSeleccionado"
+						name="idAlumnoSeleccionado">
+
+					<div class="row d-flex justify-content-center mb-4">
+						<div
+							class="col-12 d-flex align-items-center justify-content-center"
+							style="gap: 1rem; flex-wrap: wrap; position: relative;">
+							<label for="nombreYApellidos" class="label-formulario"
+								style="margin-right: -0.8vw"><strong>Nombre
+									completo:</strong></label> <input type="text" id="nombreYApellidos"
+								name="nombreYApellidos"
+								placeholder="Escribe el nombre del alumno" autocomplete="off"
+								style="padding: 0.06rem 0.8rem; flex: 0 1 18rem; max-width: 100%;">
+							<button type="button" id="btnSeleccionarAlumno"
+								class="boton-buscar">Seleccionar</button>
+						</div>
+					</div>
+
+					<div class="row d-flex justify-content-center mb-3">
+						<div class="col-12 d-flex justify-content-center">
+							<h4 class="datos">
+								<u>DATOS DE MATRICULACIÓN</u>
+							</h4>
+						</div>
+					</div>
+
+					<div class="row d-flex justify-content-center mb-4">
+						<div class="col-12 d-flex justify-content-center">
+							<label for="cursoMat" class="label-formulario"><strong>Curso:</strong></label>
+							<select id="cursoMat" name="curso" class="input-formulario"
+								required>
+								<option value="">Seleccione...</option>
+								<option value="1">CSI</option>
+								<option value="2">CMI</option>
+								<option value="3">CMA</option>
+								<option value="4">CMGA</option>
+								<option value="5">CSAF</option>
+								<option value="6">CSAU</option>
+								<option value="7">CSD</option>
+								<option value="8">CSE</option>
+							</select> <label for="grupoMat" class="label-formulario"><strong>Grupo:</strong></label>
+							<select id="grupoMat" name="grupo" class="input-formulario"
+								required>
+								<option value="">Seleccione...</option>
+							</select> <label for="anioEscolarMat" class="label-formulario"><strong>Año
+									escolar:</strong></label> <select id="anioEscolarMat" name="anioEscolar"
+								class="input-formulario" required>
+								<option value="">Seleccione...</option>
+							</select> <label for="uidLlaveMat" class="label-formulario"><strong>UID:</strong></label>
+							<input class="input-formulario" type="text" id="uidLlaveMat"
+								name="uidLlave" required>
+						</div>
+					</div>
+
+					<div class="row d-flex justify-content-center mb-3">
+						<div class="col-12 d-flex justify-content-center">
+							<button type="submit" class="boton">Guardar Matrícula</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+		</section>
+	</main>
+
+
+
+	<!-- FOOTER -->
+	<footer class="altair-footer mt-auto">
+		<div class="container">
+			<div class="row">
+				<div class="col-12"></div>
+				<p>© Copyright 2022 · Altair Centro Educativo | C/ El Barbero de
+					Sevilla, 1, 41006 SEVILLA |</p>
+			</div>
+			<div class="col-12">
+				<p>
+					Tfno.: 954 645 800 | <a href="https://altair.edu.es/contacto/"
+						style="text-decoration: none; color: #FFD43B">Contacto</a>
+				</p>
+			</div>
+		</div>
+
+	</footer>
+
+
+	<script>
+	document.addEventListener('DOMContentLoaded', () => {
+	    const btnAgregar = document.getElementById('btnAgregarAlumno');
+	    const btnMatricular = document.getElementById('btnMatricularAlumno');
+	    const formAgregar = document.getElementById('formAgregarAlumno');
+	    const formMatricular = document.getElementById('formMatricular');
+
+	    // Función para actualizar el botón activo
+	    function setActivo(btnActivo) {
+	        btnAgregar.classList.remove('activo');
+	        btnMatricular.classList.remove('activo');
+	        btnActivo.classList.add('activo');
+	    }
+
+	    // Mostrar formulario de agregar alumno
+	    btnAgregar.addEventListener('click', () => {
+	        formAgregar.style.display = 'block';
+	        formMatricular.style.display = 'none';
+	        setActivo(btnAgregar);
+	    });
+
+	    // Mostrar formulario de matriculación
+	    btnMatricular.addEventListener('click', () => {
+	        formAgregar.style.display = 'none';
+	        formMatricular.style.display = 'block';
+	        setActivo(btnMatricular);
+	    });
+
+	    // Inicial: mostrar agregar alumno por defecto
+	    formAgregar.style.display = 'block';
+	    formMatricular.style.display = 'none';
+	    setActivo(btnAgregar);
+	});
+
+    const grupos = [
+        { idGrupo: 2, nombreGrupo: "CSI2", cursoId: 1 },
+        { idGrupo: 6, nombreGrupo: "CSI1A", cursoId: 1 },
+        { idGrupo: 4, nombreGrupo: "CMI1A", cursoId: 2 },
+        { idGrupo: 5, nombreGrupo: "CMI2A", cursoId: 2 },
+        { idGrupo: 8, nombreGrupo: "CMA1A", cursoId: 3 },
+        { idGrupo: 7, nombreGrupo: "CMA2", cursoId: 3 },
+        { idGrupo: 10, nombreGrupo: "CMGA1A", cursoId: 4 },
+        { idGrupo: 9, nombreGrupo: "CMGA2", cursoId: 4 },
+        { idGrupo: 12, nombreGrupo: "CSAF1A", cursoId: 5 },
+        { idGrupo: 11, nombreGrupo: "CSAF2", cursoId: 5 },
+        { idGrupo: 14, nombreGrupo: "CSAU1A", cursoId: 6 },
+        { idGrupo: 13, nombreGrupo: "CSAU2", cursoId: 6 },
+        { idGrupo: 16, nombreGrupo: "CSD1A", cursoId: 7 },
+        { idGrupo: 15, nombreGrupo: "CSD2", cursoId: 7 },
+        { idGrupo: 18, nombreGrupo: "CSE1A", cursoId: 8 },
+        { idGrupo: 17, nombreGrupo: "CSE2", cursoId: 8 }
+    ];
+
+ // Formulario Agregar Alumno
+    const cursoAgregar = document.getElementById('curso');
+    const grupoAgregar = document.getElementById('grupo');
+    const anioAgregar = document.getElementById('anioEscolar');
+
+    cursoAgregar.addEventListener('change', function() {
+        const cursoId = parseInt(this.value);
+        grupoAgregar.innerHTML = '<option value="">Seleccione...</option>';
+        grupos.filter(g => g.cursoId === cursoId).forEach(g => {
+            const option = document.createElement('option');
+            option.value = g.idGrupo;
+            option.textContent = g.nombreGrupo;
+            grupoAgregar.appendChild(option);
+        });
+
+        anioAgregar.innerHTML = '<option value="">Seleccione...</option>';
+        const currentYear = new Date().getFullYear();
+        for (let i = 0; i < 5; i++) {
+            const start = currentYear + i;
+            const end = start + 1;
+            const option = document.createElement('option');
+            option.value = start + "-" + end;
+            option.textContent = start + "-" + end;
+            anioAgregar.appendChild(option);
+        }
+    });
+
+    // Formulario Matriculación
+    const cursoMat = document.getElementById('cursoMat');
+    const grupoMat = document.getElementById('grupoMat');
+    const anioMat = document.getElementById('anioEscolarMat');
+
+    cursoMat.addEventListener('change', function() {
+        const cursoId = parseInt(this.value);
+        grupoMat.innerHTML = '<option value="">Seleccione...</option>';
+        grupos.filter(g => g.cursoId === cursoId).forEach(g => {
+            const option = document.createElement('option');
+            option.value = g.idGrupo;
+            option.textContent = g.nombreGrupo;
+            grupoMat.appendChild(option);
+        });
+
+        anioMat.innerHTML = '<option value="">Seleccione...</option>';
+        const currentYear = new Date().getFullYear();
+        for (let i = 0; i < 5; i++) {
+            const start = currentYear + i;
+            const end = start + 1;
+            const option = document.createElement('option');
+            option.value = start + "-" + end;
+            option.textContent = start + "-" + end;
+            anioMat.appendChild(option);
+        }
+    });
+
+
+    function guardarAlumno() {
+        var formData = {
+            accion: 'guardar',
+            nombre: document.getElementById('nombre').value,
+            apellidos: document.getElementById('apellidos').value,
+            curso: document.getElementById('curso').value,
+            grupo: document.getElementById('grupo').value,
+            anioEscolar: document.getElementById('anioEscolar').value,
+            uidLlave: document.getElementById('uidLlave').value
+        };
+
+        var params = Object.keys(formData)
+            .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(formData[k]))
+            .join('&');
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', 'alumno', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    alert('Alumno guardado correctamente');
+                    document.getElementById('formAlumno').reset();
+                    grupoSelect.innerHTML = '<option value="">Seleccione...</option>';
+                    anioSelect.innerHTML = '<option value="">Seleccione...</option>';
+                } else {
+                    console.error('Error al guardar alumno: ' + xhr.status + ' - ' + xhr.responseText);
+                    alert('Error al guardar alumno');
+                }
+            }
+        };
+
+        xhr.send(params);
+        return false; 
+    }
+    
+    function guardarMatriculacion() {
+        // Obtenemos los datos del formulario
+        const formData = {
+            accion: 'guardar',
+            idAlumnoSeleccionado: document.getElementById('idAlumnoSeleccionado').value,
+            curso: document.getElementById('cursoMat').value,
+            grupo: document.getElementById('grupoMat').value,
+            anioEscolar: document.getElementById('anioEscolarMat').value,
+            uidLlave: document.getElementById('uidLlaveMat').value
+        };
+
+        // Validar campos obligatorios
+        if (!formData.idAlumnoSeleccionado) {
+            alert('⚠️ Debes seleccionar un alumno antes de guardar la matrícula.');
+            return false;
+        }
+
+        if (!formData.curso || !formData.grupo || !formData.anioEscolar || !formData.uidLlave) {
+            alert('⚠️ Todos los campos son obligatorios.');
+            return false;
+        }
+
+        // Construimos los parámetros tipo application/x-www-form-urlencoded
+        const params = Object.keys(formData)
+            .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(formData[k]))
+            .join('&');
+
+        // Enviar mediante XMLHttpRequest (igual que guardarAlumno)
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', 'matriculacion', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                if (xhr.status === 200) {
+                    alert('✅ Matrícula guardada correctamente.');
+                    document.getElementById('formAlumno2').reset();
+                    document.getElementById('idAlumnoSeleccionado').value = '';
+
+                    // Reset selects
+                    document.getElementById('grupoMat').innerHTML = '<option value="">Seleccione...</option>';
+                    document.getElementById('anioEscolarMat').innerHTML = '<option value="">Seleccione...</option>';
+                } else {
+                    console.error('Error al guardar matrícula:', xhr.status, xhr.responseText);
+                    alert('❌ Error al guardar la matrícula.');
+                }
+            }
+        };
+
+        xhr.send(params);
+        return false; // Evita el submit normal del formulario
+    }
+
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const nombreInput = document.getElementById('nombreYApellidos');
+        const idAlumnoHidden = document.getElementById('idAlumnoSeleccionado');
+        let alumnosCache = [];
+
+        // Cargar todos los alumnos
+        fetch('http://localhost:9527/api/alumnos')
+            .then(res => res.json())
+            .then(data => { alumnosCache = data; })
+            .catch(err => console.error('Error cargando alumnos:', err));
+
+        nombreInput.addEventListener('input', () => {
+            const valorUsuario = nombreInput.value;
+            idAlumnoHidden.value = ''; // Reset ID mientras escribe
+
+            if (!valorUsuario) return;
+
+            const valorLower = valorUsuario.toLowerCase();
+
+            // Filtrar coincidencias que contienen lo escrito, orden alfabético
+            const coincidencia = alumnosCache
+                .map(a => ({id: a.idAlumno, nombre: a.nombreAlumno + ' ' + a.apellidoAlumno}))
+                .filter(a => a.nombre.toLowerCase().includes(valorLower))
+                .sort((a, b) => a.nombre.localeCompare(b.nombre))[0]; // tomar la primera coincidencia
+
+            if (!coincidencia) return;
+
+            // Solo autocompleta la parte faltante
+            if (coincidencia.nombre.toLowerCase().startsWith(valorLower)) {
+                const parteAutocompletada = coincidencia.nombre.substring(valorUsuario.length);
+                nombreInput.value = valorUsuario + parteAutocompletada;
+                nombreInput.setSelectionRange(valorUsuario.length, coincidencia.nombre.length);
+            }
+            // Si no empieza con lo escrito, no forzamos nada, el usuario sigue escribiendo libremente
+        });
+
+        // Botón Seleccionar
+        document.getElementById('btnSeleccionarAlumno').addEventListener('click', () => {
+            const valor = nombreInput.value.trim().toLowerCase();
+            const seleccionado = alumnosCache
+                .map(a => ({id: a.idAlumno, nombre: a.nombreAlumno + ' ' + a.apellidoAlumno}))
+                .find(a => a.nombre.toLowerCase() === valor);
+
+            if (!seleccionado) {
+                alert('Selecciona un alumno válido de la sugerencia inline');
+                idAlumnoHidden.value = '';
+                return;
+            }
+
+            idAlumnoHidden.value = seleccionado.id;
+            alert('Alumno seleccionado: ' + seleccionado.nombre);
+        });
+    });
+</script>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		crossorigin="anonymous"></script>
+
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+
+</body>
+</html>

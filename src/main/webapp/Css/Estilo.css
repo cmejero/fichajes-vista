@@ -1,0 +1,743 @@
+@charset "UTF-8"; /* ============================
+   ESTILOS GENERALES
+============================ */
+body, html {
+    min-height: 100vh;           /* asegura que el body ocupe toda la ventana */
+    display: flex;
+    flex-direction: column;
+    font-family: 'Arial', sans-serif;
+    background-color: #F1F1F1;
+    color: #333;
+    line-height: 1.6;
+    font-size: 1.2vw;
+}
+
+/* ============================
+   HEADER FIJO
+============================ */
+header {
+	position: sticky;
+	top: 0;
+	z-index: 1000;
+	width: 100%;
+	background-color: #015b96;
+	color: white;
+}
+
+header .row {
+	height: 100%;
+	min-height: 100%;
+}
+
+.alineacion {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	height: 100%;
+}
+
+.letraNavegacion {
+	text-decoration: none;
+	color: white;
+	font-weight: bold;
+	font-size: 1.2vw;
+}
+
+/* ============================
+   MAIN GENERAL
+============================ */
+
+main {
+    flex: 1;                      /* ocupa todo el espacio vertical disponible */
+    padding-top: 6vw;
+    padding-bottom: 4vw;          /* espacio antes del footer */
+    background-color: #F1F1F1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;          /* centra contenido horizontalmente */
+    justify-content: flex-start;  /* contenido empieza desde arriba */
+    box-sizing: border-box;
+}
+
+/* ============================
+   LOGO
+============================ */
+.logoAltair {
+	width: 55%;
+	height: auto;
+	object-fit: contain;
+	display: flex;
+	justify-content: flex-start;
+	/* Alinea horizontalmente a la izquierda */
+	align-items: center;
+	border: 3px solid #015b96;
+}
+
+/* ============================
+   SELECCIÓN DE CURSO/GRUPO
+============================ */
+.selector-curso {
+	text-align: center;
+	margin-bottom: 5vw;
+}
+
+.selector-curso select {
+	margin: 1vw;
+	padding: 0.8vw 1.5vw;
+	border-radius: 0.5vw;
+	border: 0.1vw solid #ccc;
+	font-size: 1vw;
+}
+
+/* ============================
+   TABLAS DE ASISTENCIA
+============================ */
+.tabla-asistencia {
+	background-color: #FFFFFF;
+	border-radius: 1vw;
+	box-shadow: 0 0 1vw rgba(0, 0, 0, 0.1);
+	padding: 2vw;
+	margin-bottom: 4vw;
+}
+
+/* Colores de estado */
+.presente {
+	color: green;
+	font-weight: bold;
+}
+
+.ausente {
+	color: red;
+	font-weight: bold;
+}
+
+/* Clases adicionales */
+.text-altair {
+	color: #032b38;
+}
+
+.text-success-dark {
+	color: #006400 !important;
+}
+
+.text-success-light {
+	color: #28a745 !important;
+}
+
+.text-warning {
+	color: #ffc107 !important;
+}
+
+.estado-rojo {
+	color: red
+}
+
+.text-secondary {
+	color: #6c757d !important;
+}
+/* ============================
+   BOTONES PERSONALIZADOS (Estilo Altair)
+============================ */
+.boton {
+	background-color: #015b96;;
+	color: #fff;
+	border: none;
+	border-radius: 0.3vw;
+	padding: 0.6vw 2.2vw;
+	font-weight: 600;
+	text-decoration: none;
+	cursor: pointer;
+	display: inline-block;
+	letter-spacing: 0.05em;
+	transition: all 0.3s ease;
+	box-shadow: 0 0.3vw 0.6vw rgba(0, 0, 0, 0.15);
+}
+
+.boton:hover {
+	background-color: #FFD43B;
+	color: #003366;
+	transform: translateY(-0.2vw);
+	box-shadow: 0 0.6vw 1vw rgba(0, 0, 0, 0.2);
+}
+
+.boton-buscar{
+	
+	background-color: #015b96;
+	color: #fff;
+	border: none;
+	border-radius: 0.3vw;
+	padding: 0.3rem 1rem;
+	text-decoration: none;
+	cursor: pointer;
+	letter-spacing: 0.05em;
+	transition: all 0.3s ease;
+	box-shadow: 0 0.3vw 0.6vw rgba(0, 0, 0, 0.15);
+}
+
+.boton-buscar:hover {
+	background-color: #FFD43B;
+	color: #003366;
+	transform: translateY(-0.2vw);
+	box-shadow: 0 0.6vw 1vw rgba(0, 0, 0, 0.2);
+}
+
+.boton-cargar {
+	background-color: #FFCC00;
+	color: #003366;
+	border: none;
+	border-radius: 0.3vw;
+	padding: 0.6vw 2.2vw;
+	font-weight: 600;
+	text-decoration: none;
+	cursor: pointer;
+	display: inline-block;
+	letter-spacing: 0.05em;
+	transition: all 0.3s ease;
+	box-shadow: 0 0.3vw 0.6vw rgba(0, 0, 0, 0.15);
+}
+
+.boton-cargar:hover {
+	background-color: #FFD43B;
+	color: #003366;
+	transform: translateY(-0.2vw);
+	box-shadow: 0 0.6vw 1vw rgba(0, 0, 0, 0.2);
+}
+
+/* Botón especial: Modificar asistencia */
+.boton-modificar {
+	background-color: transparent;
+	color: #003366;
+	border: 0.15vw solid #003366;
+	border-radius: 0.3vw;
+	padding: 0.6vw 2vw;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	letter-spacing: 0.05em;
+}
+
+.boton-modificar:hover {
+	background-color: #FFD43B;
+	color: #003366;
+	box-shadow: 0 0.4vw 0.8vw rgba(0, 0, 0, 0.15);
+	transform: translateY(-0.2vw);
+}
+
+.boton-modificar.activo {
+    background-color: #FFD43B;
+    color: black;
+    box-shadow: 0 0.4vw 0.8vw rgba(0,0,0,0.2);
+}
+
+
+.boton-agregar {
+	background-color: #FFCC00;
+	color: #003366;
+	border: none;
+	border-radius: 0.3vw;
+	padding: 0.6vw 2.2vw;
+	font-weight: 600;
+	text-decoration: none;
+	cursor: pointer;
+	display: inline-block;
+	letter-spacing: 0.05em;
+	transition: all 0.3s ease;
+	box-shadow: 0 0.3vw 0.6vw rgba(0, 0, 0, 0.15);
+}
+
+.boton-agregar:hover {
+	background-color: #FFD43B;
+	color: #003366;
+	transform: translateY(-0.2vw);
+	box-shadow: 0 0.6vw 1vw rgba(0, 0, 0, 0.2);
+}
+
+.boton-matricular {
+	background-color: transparent;
+	color: #003366;
+	border: 0.15vw solid #003366;
+	border-radius: 0.3vw;
+	padding: 0.6vw 2vw;
+	font-weight: 600;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	letter-spacing: 0.05em;
+
+}
+
+/* ============================
+   MAIN DE ASISTENCIA CENTRADO
+============================ */
+.asistencia-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 3.5vw;
+    padding-bottom: 4vw;
+    background-color: #F1F1F1;
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden; 
+}
+
+/* ============================
+   FOOTER
+============================ */
+footer {
+	background-color: #032B38;
+	color: #FFFFFF;
+	text-align: center;
+	padding: 1.2vw 0;
+	width: 100%;
+	font-size: 1.1vw;
+}
+
+footer .row {
+	display: flex;
+	justify-content: center;
+}
+
+footer .row p {
+	margin: 0;
+	text-align: center;
+}
+
+/* ============================
+ FICHAJES
+============================ */
+.titulo-asistencia {
+	text-align: center;
+	text-decoration-color: #032b38;
+	font-size: 2.5vw;
+	color: #032b38;
+}
+
+.subtitulo-asistencia {
+	text-align: center;
+	margin: 0;
+	font-size: 1.6vw;
+	color: #015b96;
+}
+
+.cabeza-titulos {
+	background-color: transparent;
+	color: #333;
+	padding: 20px;
+	text-align: center;
+}
+
+.filter-section {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 3px;
+	background-color: transparent;
+	padding: 10px;
+	border-radius: 5px;
+}
+
+.filter-section>div {
+	display: flex;
+	align-items: center;
+	margin-right: 10px;
+	margin-bottom: 10px;
+}
+
+.filter-section label {
+	font-weight: bold;
+	margin-left: 3vw;
+}
+
+.filter-section input, .filter-section select {
+	padding: 5px;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+.filter-section button {
+	background-color: #ffcc00;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	border-radius: 3px;
+	cursor: pointer;
+	margin-left: 10px;
+}
+
+.filter-section button:hover {
+	background-color: #0056b3;
+}
+/* ============================
+ ALUMNO.JSP
+============================ */
+.text-gestion {
+	text-align: center;
+	text-decoration: underline;
+	text-decoration-color: #032b38;
+	font-size: 2vw;
+	color: #032b38;
+}
+
+.text-registrar {
+	text-align: center;
+	font-size: 1.5vw;
+	color: #015b96;
+}
+
+.datos {
+	text-align: center;
+	font-size: 1.5vw;
+	color: #015b96;
+}
+
+.asistencia-main .form-container {
+	border: 3px solid #032b38;
+	border-radius: 20px;
+	padding: 1vw;
+	margin-top: 1vw;
+	margin-bottom: 2vw;
+}
+
+.label-formulario {
+	margin-right: 0.5vw;
+}
+
+.input-formulario {
+	margin-right: 1vw;
+	width: 12vw;
+}
+
+.input-formulario2 {
+	margin-right: 1vw;
+}
+
+/* ============================
+   AJUSTES RESPONSIVE 
+============================ */
+@media ( max-width : 767px) {
+	/* Header */
+	header {
+		font-size: 2.5vw;
+	}
+	.letraNavegacion {
+		font-size: 2vw;
+	}
+	.logoAltair {
+		width: 90%;
+	}
+
+	/* Footer */
+	footer {
+		font-size: 1.8vw;
+		/* texto más grande en móviles */
+		padding: 2.5vw 0;
+		/* más espacio vertical */
+	}
+
+	/* Selector curso/grupo */
+	.selector-curso select, .selector-curso .boton {
+		width: 20%;
+		margin-bottom: 1.5vw;
+		font-size: 1.8vw;
+		/* más grande y legible */
+	}
+
+	/* Tabla */
+	table th, table td {
+		font-size: 2.2vw;
+		padding: 1vw 0.5vw;
+	}
+
+	/* Botones */
+	.boton, .boton-modificar, .boton-cargar {
+		width: 30%;
+		font-size: 2vw;
+		/* texto de botones más grande */
+		padding: 1vw 0;
+		margin-bottom: 2vw;
+		margin-left: 1.2vw;
+		margin-right: 1.2vw;
+	}
+	
+	.boton-buscar{
+	
+		padding: 0.5rem 2rem;
+		font-size: 2vw;
+	
+	}
+
+	/* Bienvenida */
+	.bienvenida h1 {
+		font-size: 4.2vw;
+	}
+	.bienvenida p {
+		font-size: 2.5vw;
+	}
+	.letra {
+		font-size: 2vw;
+	}
+
+	/* Selector curso/grupo */
+	.selector-curso h2 {
+		font-size: 2.2vw;
+		margin-bottom: 1.5vw;
+	}
+	.asistencia-main {
+		min-height: 80%;
+		padding-top: 10vw;
+		padding-bottom: 4vw;
+		background-color: #F1F1F1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	
+	
+	
+	.titulo-asistencia {
+   font-size: 3vw;
+ }
+ .subtitulo-asistencia {
+   font-size: 1,5vw;
+   margin-bottom: 1.6vw;
+ }
+ .cabeza-asistencia {
+   padding: 1vw;
+ }
+ .filter-section {
+   margin-bottom: 1vw;
+   padding: 1vw;
+ }
+ .filter-section > div {
+   margin-right: 0,7vw;
+   margin-bottom: 0,7vw;
+ }
+ .filter-section label {
+   margin-right: 1vw;
+   font-size: 1.5vw;
+ }
+ .filtrado-asistencias {
+ font-size: 1.5vw;
+ }
+ .opciones-asistencias {
+ font-size: 1.5vw;
+ }
+ .filter-section input,
+ .filter-section select {
+   padding: 0,8vw;
+   border-width: 0.3vw;
+   border-radius: 0.8vw;
+   margin-right: -3vw;
+   font-size: 1.25vw;
+   width: 13vw;
+ }
+ .filter-section button {
+   padding: 1vw 0;
+		margin-bottom: 2vw;
+		margin-left: 2vw;
+		margin-right: 1.2vw;
+   width: 10%;
+		height: 70%;
+		font-size: 2vw;
+ }
+ .text-gestion {
+font-size: 3vw;
+ }
+ .boton-agregar {
+ font-size: 2vw;
+ height: 80%;
+ }
+ .text-registrar {
+	
+	font-size: 2vw;
+}
+.datos {
+	font-size: 2vw;
+}
+.asistencia-main .form-container {
+ border: 1px solid #000;
+ padding: 10px;
+ margin-top: 2vw;
+}
+.label-formulario {
+	margin-right: 1vw;
+	font-size: 1.5vw;
+}
+.input-formulario {
+	margin-right: 1vw;
+	width: 10vw;
+}
+.input-formulario2 {
+	margin-right: 1vw;
+}
+.boton {
+	margin-top: 1,8vw;
+}
+}
+
+@media ( min-width : 768px) and (max-width: 991px) {
+	/* Header */
+	header {
+		font-size: 2vw;
+	}
+	.letraNavegacion {
+		font-size: 1.65vw;
+	}
+	.logoAltair {
+		width: 70%;
+	}
+
+	/* Footer */
+	footer {
+		font-size: 1.6vw;
+		/* texto más grande en móviles */
+		padding: 2.5vw 0;
+		/* más espacio vertical */
+	}
+
+	/* Selector curso/grupo */
+	.selector-curso select, .selector-curso .boton {
+		width: 20%;
+		margin-bottom: 1.5vw;
+		font-size: 1.5vw;
+		/* más grande y legible */
+	}
+
+	/* Tabla */
+	table th, table td {
+		font-size: 1.8vw;
+		padding: 1vw 0.5vw;
+	}
+
+	/* Botones */
+	.boton, .boton-modificar, .boton-cargar {
+		width: 28%;
+		font-size: 1.6vw;
+		/* texto de botones más grande */
+		padding: 1vw 0;
+		margin-bottom: 2vw;
+		margin-left: 1.2vw;
+		margin-right: 1.2vw;
+	}
+
+
+	.boton-buscar{
+	
+		padding: 0.4rem 1.8rem;
+		font-size: 1.6vw;
+	
+	}
+	
+	/* Bienvenida */
+	.bienvenida h1 {
+		font-size: 3.5vw;
+	}
+	.bienvenida p {
+		font-size: 2vw;
+	}
+	.letra {
+		font-size: 1.6vw;
+	}
+
+	/* Selector curso/grupo */
+	.selector-curso h2 {
+		font-size: 2vw;
+		margin-bottom: 1.5vw;
+	}
+	.asistencia-main {
+		min-height: 80%;
+		padding-top: 16vw;
+		padding-bottom: 4vw;
+		background-color: #F1F1F1;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+	.tabla-asistencia {
+		background-color: #FFFFFF;
+		border-radius: 1vw;
+		box-shadow: 0 0 1vw rgba(0, 0, 0, 0.1);
+		padding: 2vw;
+		margin-bottom: 4vw;
+	}
+	
+	.titulo-asistencia {
+   font-size: 3vw;
+ }
+ .subtitulo-asistencia {
+   font-size: 1,5vw;
+   margin-bottom: 1.6vw;
+ }
+ .cabeza-asistencia {
+   padding: 1vw;
+ }
+ .filter-section {
+   margin-bottom: 1vw;
+   padding: 1vw;
+ }
+ .filter-section > div {
+   margin-right: 0,7vw;
+   margin-bottom: 0,7vw;
+ }
+ .filter-section label {
+   margin-right: 1vw;
+ }
+ .filter-section input,
+ .filter-section select {
+   padding: 0,8vw;
+   border-width: 0.3vw;
+   border-radius: 0.8vw;
+   margin-right: -2vw;
+ }
+ .filter-section button {
+   padding: 0.8vw 0;
+		margin-bottom: 1vw;
+		margin-left: 2vw;
+		margin-right: 2vw;
+   width: 10%;
+		height: 60%;
+		font-size: 1.5vw;
+ }
+ .label-fecha-alumno {
+ margin-left: -2vw; 
+ }
+ .text-gestion {
+font-size: 3vw;
+ }
+ .boton-agregar {
+width: 28%;
+	font-size: 1.6vw;
+		/* texto de botones más grande */
+		padding: 1vw 0;
+		margin-bottom: 2vw;
+		margin-left: 1.2vw;
+		
+ }
+ .text-registrar {
+	font-size: 2vw;
+}
+.datos {
+	font-size: 2vw;
+}
+.asistencia-main .form-container {
+ border: 1px solid #000;
+ padding: 10px;
+ margin-top: 2vw;
+}
+.label-formulario {
+	margin-right: 1vw;
+	font-size: 1,3vw;
+}
+.input-formulario {
+	margin-right: 1vw;
+	width: 9vw;
+}
+.input-formulario2 {
+	margin-right: 1vw;
+}
+}
