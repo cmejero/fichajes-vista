@@ -126,8 +126,8 @@ document.addEventListener("DOMContentLoaded", async function() {
         defaultCursoOpt.selected = true;
         cursoSelect.appendChild(defaultCursoOpt);
 
-        // Cargar cursos desde API
-        const respCursos = await fetch("http://localhost:9527/api/cursos");
+       
+        const respCursos = await fetch('<%= request.getContextPath() %>/curso');
         const cursos = await respCursos.json();
         cursos.forEach(curso => {
             const opt = document.createElement("option");
@@ -156,7 +156,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
             if (!cursoSelect.value) return;
 
-            const respGrupos = await fetch("http://localhost:9527/api/grupos/curso/" + cursoSelect.value);
+            const respGrupos = await fetch("<%= request.getContextPath() %>/grupo/" + encodeURIComponent(cursoSelect.value));
             const grupos = await respGrupos.json();
             grupos.forEach(grupo => {
                 const opt = document.createElement("option");

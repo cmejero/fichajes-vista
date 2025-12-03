@@ -126,11 +126,15 @@ main {
 }
 
 .text-warning {
-	color: #ffc107 !important;
+	color: rgb(249, 124, 0) !important;
 }
 
 .estado-rojo {
 	color: red
+}
+
+.estado-naranja {
+	color: #f97c00;
 }
 
 .text-secondary {

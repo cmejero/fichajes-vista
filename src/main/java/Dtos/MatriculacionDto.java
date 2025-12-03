@@ -1,5 +1,9 @@
 package Dtos;
 
+
+/**
+ * Clase que se encarga de los campos de matriculacion
+ */
 public class MatriculacionDto {
 	
 	

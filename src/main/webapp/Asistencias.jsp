@@ -269,7 +269,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         defaultCursoOpt.selected = true;
         entradaCurso.appendChild(defaultCursoOpt);
 
-        const respCursos = await fetch("http://localhost:9527/api/cursos");
+        const respCursos = await fetch('<%= request.getContextPath() %>/curso');
         const cursos = await respCursos.json();
 
         cursos.forEach(curso => {
@@ -298,7 +298,8 @@ document.addEventListener("DOMContentLoaded", async function() {
 
             if (!entradaCurso.value) return;
 
-            const respGrupos = await fetch("http://localhost:9527/api/grupos/curso/" + encodeURIComponent(entradaCurso.value));
+            const respGrupos = await fetch("<%= request.getContextPath() %>/grupo/" + encodeURIComponent(entradaCurso.value));
+
             const grupos = await respGrupos.json();
             if (!Array.isArray(grupos)) return;
 
@@ -372,8 +373,8 @@ document.addEventListener("DOMContentLoaded", async function() {
     // Cargar alumnos y activar autocomplete
     // ------------------------------
     let alumnosCache = [];
-    fetch('http://localhost:9527/api/asistencias')
-        .then(res => res.json())
+    fetch('<%= request.getContextPath() %>/asistencia?accion=todas')
+    .then(res => res.json())
         .then(data => {
             const mapaAlumnos = new Map();
 
@@ -560,6 +561,7 @@ document.addEventListener("DOMContentLoaded", async function() {
                             case 'PRESENTE': td.className = 'text-success-light fw-bold'; break;
                             case 'SIN SALIDA': td.className = 'text-warning fw-bold'; break;
                             case 'FALTA': td.className = 'text-danger fw-bold'; break;
+                            case 'FESTIVO': td.className = 'estado-naranja fw-bold'; break;
                             default: td.className = 'text-secondary fw-bold';
                         }
                     }
@@ -593,7 +595,6 @@ document.addEventListener("DOMContentLoaded", async function() {
         const table = document.createElement('table');
         table.classList.add('table', 'table-striped', 'table-bordered', 'shadow-sm', 'w-100');
         table.style.tableLayout = "fixed";
-        table.style.minWidth = "800px";
 
         const thead = document.createElement('thead');
         const headerRow = document.createElement('tr');
@@ -605,7 +606,6 @@ document.addEventListener("DOMContentLoaded", async function() {
             th.style.color = "#fff";
             th.style.textAlign = 'center';
             th.style.width = "25%";
-            th.style.minWidth = "150px";
             th.style.position = 'sticky';
             th.style.top = '0';
             th.style.zIndex = '10';

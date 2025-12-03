@@ -1,5 +1,9 @@
 package Dtos;
 
+
+/**
+ * Clase que se encarga de los campos de alumno y matriculacion
+ */
 public class AlumnoConMatriculacionDto {
 
     private Long idAlumno;

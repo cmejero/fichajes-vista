@@ -9,6 +9,9 @@ import Utilidades.Utilidades;
 
 
 
+/**
+ * Clase que se encarga del Log
+ */
 public class Log {
 	 private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 

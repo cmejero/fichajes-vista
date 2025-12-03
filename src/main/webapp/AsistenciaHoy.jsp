@@ -368,6 +368,7 @@ document.addEventListener('DOMContentLoaded', function() {
                                             case 'PRESENTE': td.className = 'text-success-light fw-bold'; break;
                                             case 'SIN SALIDA': td.className = 'text-warning fw-bold'; break;
                                             case 'FALTA': td.className = 'text-danger fw-bold'; break;
+                                            case 'FESTIVO': td.style = 'color: #f97c00'; break;
                                         }
                                     }
                                     tr.appendChild(td);

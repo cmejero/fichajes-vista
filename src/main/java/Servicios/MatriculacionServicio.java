@@ -8,10 +8,18 @@ import org.json.JSONObject;
 import Dtos.MatriculacionDto;
 import Log.Log;
 
+/**
+ * Clase que se encarga de la logica de los metodos CRUD matriculacion
+ */
 public class MatriculacionServicio {
 
     private static final String BASE_API = "http://localhost:9527/api/guardarMatriculacion";
 
+    /**
+     * Guarda una nueva matriculación enviando los datos al endpoint de la API.
+     *
+     * @param dto Objeto MatriculacionDto con los datos de la matrícula.
+     */
     public void guardarMatriculacion(MatriculacionDto dto) {
         try {
             // Construir JSON
@@ -34,6 +42,14 @@ public class MatriculacionServicio {
         }
     }
 
+    /**
+     * Ejecuta una solicitud HTTP POST a la URL indicada con un cuerpo JSON opcional.
+     *
+     * @param urlStr URL a la que se realiza la solicitud POST.
+     * @param body   JSONObject con los datos a enviar; puede ser null.
+     * @return Contenido de la respuesta como String.
+     * @throws Exception Si ocurre un error en la conexión o si el código HTTP no es 200 o 201.
+     */
     private String ejecutarPost(String urlStr, JSONObject body) throws Exception {
         java.net.URI uri = new java.net.URI(urlStr);
         java.net.URL url = uri.toURL();
@@ -65,6 +81,13 @@ public class MatriculacionServicio {
         return resp;
     }
 
+    /**
+     * Lee un InputStream y devuelve su contenido como String.
+     *
+     * @param is InputStream a leer.
+     * @return Contenido del stream como String.
+     * @throws Exception Si ocurre un error de lectura.
+     */
     private String readStream(InputStream is) throws Exception {
         if (is == null) return "";
         try (BufferedReader in = new BufferedReader(new InputStreamReader(is, java.nio.charset.StandardCharsets.UTF_8))) {
@@ -74,4 +97,5 @@ public class MatriculacionServicio {
             return sb.toString();
         }
     }
+
 }
