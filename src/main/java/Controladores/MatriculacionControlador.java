@@ -21,29 +21,29 @@ public class MatriculacionControlador extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private MatriculacionServicio servicio = new MatriculacionServicio();
 
-	/**
-	 * 
-	 * Maneja las solicitudes POST para el servlet de matrículas.
-	 * 
-	 * Según la acción indicada en el parámetro 'accion', realiza la operación correspondiente.
-	 * 
-	 * @param request  Objeto HttpServletRequest que contiene los parámetros de la solicitud.
-	 * 
-	 * @param response Objeto HttpServletResponse para enviar la respuesta JSON.
-	 * 
-	 * @throws ServletException Si ocurre un error de servlet.
-	 * 
-	 * @throws IOException      Si ocurre un error de entrada/salida.
-	 */
 	@Override
+	/**
+	 * Maneja las peticiones POST hacia /matriculacion.
+	 * Según el parámetro 'accion', realiza la operación correspondiente: guardar o modificar.
+	 *
+	 * @param request  Solicitud HTTP con los datos enviados desde la vista.
+	 * @param response Respuesta HTTP enviada al cliente.
+	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	        throws ServletException, IOException {
 
-		String accion = request.getParameter("accion");
+	    String accion = request.getParameter("accion");
+	    Log.ficheroLog("Petición POST recibida en /matriculacion con acción: " + accion);
 
-		if ("guardar".equals(accion)) {
-			guardarMatriculacion(request, response);
-		}
+	    if ("guardar".equals(accion)) {
+	        guardarMatriculacion(request, response);
+	    } else if ("modificar".equals(accion)) {
+	        modificarMatriculacion(request, response);
+	    } else {
+	        Log.ficheroLog("Acción POST no reconocida en /matriculacion: " + accion);
+	        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	        response.getWriter().write("{\"success\": false, \"mensaje\": \"Acción no válida\"}");
+	    }
 	}
 
 	/**
@@ -92,6 +92,58 @@ public class MatriculacionControlador extends HttpServlet {
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
 			response.getWriter().write("{\"success\": false, \"mensaje\": \"Error al guardar matrícula\"}");
 		}
+	}
+	
+	
+	/**
+	 * Modifica los datos de una matrícula existente.
+	 *
+	 * @param request  Objeto HttpServletRequest con los parámetros de la matrícula.
+	 * @param response Objeto HttpServletResponse para enviar la respuesta JSON.
+	 * @throws IOException Si ocurre un error al escribir la respuesta.
+	 */
+	private void modificarMatriculacion(HttpServletRequest request, HttpServletResponse response)
+	        throws IOException {
+
+	    response.setContentType("application/json; charset=UTF-8");
+
+	    try {
+	        String idMatriculacionStr = request.getParameter("idMatriculacion");
+	        if (idMatriculacionStr == null || idMatriculacionStr.isEmpty()) {
+	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	            response.getWriter().write("{\"success\": false, \"mensaje\": \"Falta ID de la matrícula\"}");
+	            return;
+	        }
+
+	        Long idMatriculacion = Long.parseLong(idMatriculacionStr);
+
+	        Long cursoId = Long.parseLong(request.getParameter("curso"));
+	        Long grupoId = Long.parseLong(request.getParameter("grupo"));
+	        String anioEscolar = request.getParameter("anioEscolar");
+	        String uidLlave = request.getParameter("uidLlave");
+
+	        MatriculacionDto dto = new MatriculacionDto();
+	        dto.setCursoId(cursoId);
+	        dto.setGrupoId(grupoId);
+	        dto.setAnioEscolar(anioEscolar);
+	        dto.setUidLlave(uidLlave);
+
+	        boolean modificado = servicio.modificarMatriculacion(idMatriculacion, dto);
+
+	        if (modificado) {
+	            Log.ficheroLog("✅ Matrícula modificada correctamente ID: " + idMatriculacion);
+	            response.getWriter().write("{\"success\": true, \"mensaje\": \"Matrícula modificada correctamente\"}");
+	        } else {
+	            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	            response.getWriter().write("{\"success\": false, \"mensaje\": \"Matrícula no encontrada\"}");
+	        }
+
+	    } catch (Exception e) {
+	        Log.ficheroLog("❌ Error al modificar matrícula: " + e.getMessage());
+	        e.printStackTrace();
+	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	        response.getWriter().write("{\"success\": false, \"mensaje\": \"Error al modificar matrícula\"}");
+	    }
 	}
 	
 	

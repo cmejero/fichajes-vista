@@ -62,7 +62,6 @@
 
         <h2 class="text-center mb-4 text-altair">Asistencia del día</h2>
 
-        <!-- Contenedor donde se insertará la tabla dinámica -->
         <div id="contenedorTablaAsistencia" class="table-responsive"></div>
 
         <!-- Botones -->

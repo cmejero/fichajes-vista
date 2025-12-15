@@ -60,7 +60,7 @@
 		<section class="tabla-asistencia container shadow p-4 rounded">
 			<div class="row">
 				<div class="col-12">
-					<h2 class="text-gestion">GESTIÓN DE ALUMNOS</h2>
+					<h1 class="titulo-asistencia mt-3"><u>GESTIÓN DE ALUMNOS</u></h1>
 				</div>
 			</div>
 
@@ -247,6 +247,98 @@
 
 
 		</section>
+
+		<!-- MODAL ALUMNO -->
+
+		<div class="modal fade" id="modalEditarAlumno" tabindex="-1"
+			aria-labelledby="modalEditarAlumnoLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<form id="formEditarAlumno">
+						<div class="modal-header">
+							<h5 class="modal-title" id="modalEditarAlumnoLabel">Editar
+								Alumno</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Cerrar"></button>
+						</div>
+						<div class="modal-body">
+							<input type="hidden" id="idAlumnoEditar" name="idAlumno">
+							<div class="mb-3">
+								<label for="nombreEditar" class="form-label">Nombre</label> <input
+									type="text" id="nombreEditar" name="nombre"
+									class="form-control" required>
+							</div>
+							<div class="mb-3">
+								<label for="apellidosEditar" class="form-label">Apellidos</label>
+								<input type="text" id="apellidosEditar" name="apellidos"
+									class="form-control" required>
+							</div>
+							<div id="mensajeModificacionAlumno"
+								style="display: none; margin-top: 10px;"></div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-warning">Guardar
+								cambios</button>
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Cancelar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- MODAL MATRICULA -->
+
+
+		<div class="modal fade" id="modalEditarMatriculacion" tabindex="-1"
+			aria-labelledby="modalEditarMatriculacionLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<form id="formEditarMatriculacion">
+						<div class="modal-header">
+							<h5 class="modal-title" id="modalEditarMatriculacionLabel">Editar
+								Matrícula</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Cerrar"></button>
+						</div>
+						<div class="modal-body">
+							<input type="hidden" id="idMatriculacionEditar"
+								name="idMatriculacionEditar">
+
+							<div class="mb-3">
+								<label for="cursoEditar" class="form-label">Curso</label> <select
+									id="cursoEditar" name="curso" class="form-select" required></select>
+							</div>
+							<div class="mb-3">
+								<label for="grupoEditar" class="form-label">Grupo</label> <select
+									id="grupoEditar" name="grupo" class="form-select" required></select>
+							</div>
+							<div class="mb-3">
+								<label for="anioEditar" class="form-label">Año Escolar</label> <input
+									type="text" id="anioEditar" name="anioEscolar"
+									class="form-control" required>
+							</div>
+							<div class="mb-3">
+								<label for="uidEditar" class="form-label">UID</label> <input
+									type="text" id="uidEditar" name="uidLlave" class="form-control">
+							</div>
+
+							<div id="mensajeModificacionMatriculacion"
+								style="display: none; margin-top: 10px;"></div>
+						</div>
+						<div class="modal-footer">
+							<button type="submit" class="btn btn-warning">Guardar
+								cambios</button>
+							<button type="button" class="btn btn-secondary"
+								data-bs-dismiss="modal">Cancelar</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+
+
 	</main>
 
 
@@ -488,7 +580,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mostrarDatosAlumno(seleccionado.id);
     });
 
-    // --- FUNCIONES MOSTRAR Y ELIMINAR ALUMNO/MATRÍCULA ---
+    // --- FUNCIONES MOSTRAR, MODIFICAR Y ELIMINAR ALUMNO/MATRÍCULA ---
 window.mostrarDatosAlumno = function(idAlumno) {
     fetch('<%=request.getContextPath()%>/alumno?id=' + idAlumno)
         .then(res => res.json())
@@ -509,7 +601,7 @@ window.mostrarDatosAlumno = function(idAlumno) {
 
                     const theadAlumno = document.createElement('thead');
                     const headerRowAlumno = document.createElement('tr');
-                    ['Nombre', 'Apellidos', 'Acción'].forEach(h => {
+                    ['Nombre', 'Apellidos', 'Acciones'].forEach(h => {
                         const th = document.createElement('th');
                         th.textContent = h;
                         th.style.backgroundColor = "#032b38";
@@ -536,20 +628,42 @@ window.mostrarDatosAlumno = function(idAlumno) {
                     const tdAccion = document.createElement('td');
                     tdAccion.style.textAlign = 'center';
                     tdAccion.style.verticalAlign = 'middle';
+                    tdAccion.style.width = '15%';
+                    tdAccion.style.whiteSpace = 'nowrap';
+                    tdAccion.style.padding = '0.25rem';
+
+
+                    // --- BOTÓN MODIFICAR ---
+                    const btnModificar = document.createElement('button');
+                    btnModificar.classList.add('btn', 'btn-warning');
+                    btnModificar.style.padding = '0.25rem 0.4rem';
+                    btnModificar.style.fontSize = '1.2rem';
+                    btnModificar.style.lineHeight = '1';
+                    btnModificar.style.marginRight = '0.35rem';
+                    btnModificar.innerHTML = '<i class="bi bi-pencil-square"></i>';
+                    btnModificar.onclick = () => abrirModalEditarAlumno(alumno);
+
+                    // --- BOTÓN ELIMINAR ---
                     const btnEliminar = document.createElement('button');
                     btnEliminar.classList.add('btn', 'btn-danger');
-                    btnEliminar.style.padding = '0.25rem 0.4rem'; 
-                    btnEliminar.style.fontSize = '1.2rem'; 
-                    btnEliminar.style.lineHeight = '1'; 
-                    btnEliminar.innerHTML = '<i class="bi bi-trash"></i>'; 
+                    btnEliminar.style.padding = '0.25rem 0.4rem';
+                    btnEliminar.style.fontSize = '1.2rem';
+                    btnEliminar.style.lineHeight = '1';
+                    btnEliminar.innerHTML = '<i class="bi bi-trash"></i>';
                     btnEliminar.onclick = () => eliminarAlumno(alumno.idAlumno);
+
+                    // Añadir botones a la celda
+                    tdAccion.appendChild(btnModificar);
                     tdAccion.appendChild(btnEliminar);
+
+                    // Añadir celda a la fila
                     trAlumno.appendChild(tdAccion);
 
-
+                    // Añadir fila a la tabla
                     tbodyAlumno.appendChild(trAlumno);
                     tableAlumno.appendChild(tbodyAlumno);
                     resultado.appendChild(tableAlumno);
+
 
                     // --- Tabla de Matriculas ---
                     if (alumno.matriculas && alumno.matriculas.length > 0) {
@@ -588,6 +702,16 @@ window.mostrarDatosAlumno = function(idAlumno) {
                             const tdAcc = document.createElement('td');
                             tdAcc.style.textAlign = 'center';
                             tdAcc.style.verticalAlign = 'middle';
+
+                            const btnModificar = document.createElement('button');
+                            btnModificar.classList.add('btn', 'btn-warning');
+                            btnModificar.style.padding = '0.25rem 0.4rem';
+                            btnModificar.style.fontSize = '1.2rem';
+                            btnModificar.style.lineHeight = '1';
+                            btnModificar.style.marginRight = '0.35rem';
+                            btnModificar.innerHTML = '<i class="bi bi-pencil-square"></i>';
+                            btnModificar.onclick = () => abrirModalEditarMatriculacion(m);
+
                             const btnElim = document.createElement('button');
                             btnElim.classList.add('btn', 'btn-danger');
                             btnElim.style.padding = '0.25rem 0.4rem';
@@ -595,8 +719,11 @@ window.mostrarDatosAlumno = function(idAlumno) {
                             btnElim.style.lineHeight = '1';
                             btnElim.innerHTML = '<i class="bi bi-trash"></i>';
                             btnElim.onclick = () => eliminarMatricula(m.idMatriculacion);
+
+                            tdAcc.appendChild(btnModificar);
                             tdAcc.appendChild(btnElim);
                             tr.appendChild(tdAcc);
+
 
 
                             tbodyMat.appendChild(tr);
@@ -747,6 +874,202 @@ window.eliminarMatricula = function(idMatriculacion) {
         xhr.send(params);
         return false;
     }
+    
+    
+    // METODOS RELACIONADO CON MODIFICAR ALUMNOS
+    const formEditarAlumno = document.getElementById("formEditarAlumno");
+    const mensajeModificacion = document.getElementById("mensajeModificacionAlumno");
+
+    // Verificar que el formulario existe
+    if (!formEditarAlumno) {
+        console.error("No se encontró el formulario #formEditarAlumno");
+        return;
+    }
+
+    // Función para abrir el modal y rellenar datos
+    window.abrirModalEditarAlumno = function(alumno) {
+        document.getElementById('idAlumnoEditar').value = alumno.idAlumno;
+        document.getElementById('nombreEditar').value = alumno.nombreAlumno;
+        document.getElementById('apellidosEditar').value = alumno.apellidoAlumno;
+
+        const modal = new bootstrap.Modal(document.getElementById('modalEditarAlumno'));
+        modal.show();
+    }
+
+    // Submit del formulario de edición
+    formEditarAlumno.addEventListener("submit", function(e) {
+        e.preventDefault(); // evita recarga
+
+        const idAlumno = document.getElementById('idAlumnoEditar').value;
+        if (!idAlumno) {
+            mensajeModificacion.textContent = "❌ No se encontró ID del alumno.";
+            mensajeModificacion.style.display = "block";
+            mensajeModificacion.style.color = "red";
+            return;
+        }
+
+        const formData = new URLSearchParams(new FormData(formEditarAlumno));
+        formData.append("accion", "modificar");
+
+        fetch('<%=request.getContextPath()%>/alumno', {
+            method: "POST",
+            body: formData
+        })
+        .then(res => res.json())
+        .then(data => {
+            mensajeModificacion.textContent = data.mensaje;
+            mensajeModificacion.style.display = "block";
+            mensajeModificacion.style.color = data.success ? "green" : "red";
+
+            if (data.success) {
+               
+                setTimeout(() => {
+                    const modalInstance = bootstrap.Modal.getInstance(document.getElementById("modalEditarAlumno"));
+                    if (modalInstance) modalInstance.hide();
+                    mensajeModificacion.style.display = "none";
+
+                    const idAlumno = document.getElementById('idAlumnoEditar').value;
+                    if (idAlumno) {
+                        mostrarDatosAlumno(idAlumno); 
+                    }
+                }, 1500);
+            }
+        })
+        .catch(err => {
+            console.error('Error al modificar alumno:', err);
+            mensajeModificacion.textContent = "❌ Error al modificar el alumno.";
+            mensajeModificacion.style.display = "block";
+            mensajeModificacion.style.color = "red";
+        });
+    });
+
+
+    function abrirModalEditarAlumno(alumno) {
+        document.getElementById('idAlumnoEditar').value = alumno.idAlumno;
+        document.getElementById('nombreEditar').value = alumno.nombreAlumno;
+        document.getElementById('apellidosEditar').value = alumno.apellidoAlumno;
+
+        const modal = new bootstrap.Modal(document.getElementById('modalEditarAlumno'));
+        modal.show();
+    }
+    
+    
+    
+    
+    
+    
+    
+    // METODOS RELACIONADO CON MODIFICAR MATRICULA
+
+    
+
+ // --- Abrir modal con datos de la matrícula ---
+ window.abrirModalEditarMatriculacion = function(matricula) {
+     document.getElementById('idMatriculacionEditar').value = matricula.idMatriculacion;
+     document.getElementById('anioEditar').value = matricula.anioEscolar;
+     document.getElementById('uidEditar').value = matricula.uidLlave;
+
+     const selectCurso = document.getElementById('cursoEditar');
+     const selectGrupo = document.getElementById('grupoEditar');
+
+     // Limpiar selects
+     selectCurso.innerHTML = '<option value="">Seleccione...</option>';
+     selectGrupo.innerHTML = '<option value="">Seleccione...</option>';
+
+     // Cargar cursos
+     fetch('<%=request.getContextPath()%>/curso')
+         .then(resp => resp.json())
+         .then(cursos => {
+             cursos.forEach(curso => {
+                 const option = document.createElement('option');
+                 option.value = curso.idCurso;
+                 option.textContent = curso.nombreCurso;
+                 selectCurso.appendChild(option);
+             });
+
+             // Seleccionar curso actual
+             if (matricula.cursoId) selectCurso.value = matricula.cursoId;
+
+             // Cargar grupos del curso seleccionado y seleccionar grupo actual
+             if (matricula.cursoId) {
+                 cargarGrupos(matricula.cursoId, selectGrupo)
+                     .then(() => {
+                         if (matricula.grupoId) selectGrupo.value = matricula.grupoId;
+                     });
+             }
+         });
+
+     // Abrir modal
+     const modal = new bootstrap.Modal(document.getElementById('modalEditarMatriculacion'));
+     modal.show();
+ };
+
+ // --- Submit del formulario de edición de matrícula ---
+ const formEditarMatriculacion = document.getElementById('formEditarMatriculacion');
+ const mensajeModificacionMatriculacion = document.getElementById('mensajeModificacionMatriculacion');
+
+ formEditarMatriculacion.addEventListener('submit', function(e) {
+	    e.preventDefault();
+
+	    const idMat = document.getElementById('idMatriculacionEditar').value;
+
+	    const accion = idMat ? 'modificar' : 'guardar'; // Detecta acción
+	    const formData = new URLSearchParams({
+	        accion: accion,
+	        idMatriculacion: idMat || '',
+	        curso: document.getElementById('cursoEditar').value,
+	        grupo: document.getElementById('grupoEditar').value,
+	        anioEscolar: document.getElementById('anioEditar').value,
+	        uidLlave: document.getElementById('uidEditar').value
+	    });
+
+	    fetch('<%=request.getContextPath()%>/matriculacion', {
+	        method: 'POST',
+	        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+	        body: formData
+	    })
+	    .then(res => res.json())
+	    .then(data => {
+	        mensajeModificacionMatriculacion.textContent = data.mensaje;
+	        mensajeModificacionMatriculacion.style.display = "block";
+	        mensajeModificacionMatriculacion.style.color = data.success ? "green" : "red";
+
+	        if (data.success) {
+	            setTimeout(() => {
+	                const modalInstance = bootstrap.Modal.getInstance(document.getElementById('modalEditarMatriculacion'));
+	                if (modalInstance) modalInstance.hide();
+	                mensajeModificacionMatriculacion.style.display = "none";
+
+	                if (typeof window.mostrarDatosAlumno === "function" && idAlumnoSeleccionadoVer) {
+	                    mostrarDatosAlumno(idAlumnoSeleccionadoVer);
+	                }
+	            }, 1500);
+	        }
+	    })
+	    .catch(err => {
+	        console.error('Error al guardar/modificar matrícula:', err);
+	        mensajeModificacionMatriculacion.textContent = "❌ Error al guardar/modificar matrícula.";
+	        mensajeModificacionMatriculacion.style.display = "block";
+	        mensajeModificacionMatriculacion.style.color = "red";
+	    });
+	});
+
+
+ const selectCurso = document.getElementById('cursoEditar');
+ const selectGrupo = document.getElementById('grupoEditar');
+
+ selectCurso.addEventListener('change', function() {
+     const cursoId = parseInt(this.value);
+
+     // Limpiar grupo
+     selectGrupo.innerHTML = '<option value="">Seleccione...</option>';
+
+     if (!cursoId) return;
+
+     // Cargar grupos del curso seleccionado
+     cargarGrupos(cursoId, selectGrupo);
+ });
+
 
 });
 </script>

@@ -5,6 +5,7 @@ import java.io.IOException;
 import com.google.gson.Gson;
 
 import Dtos.AlumnoConMatriculacionDto;
+import Dtos.AlumnoDto;
 import Log.Log;
 import Servicios.AlumnoServicio;
 import jakarta.servlet.ServletException;
@@ -32,19 +33,26 @@ public class AlumnoControlador extends HttpServlet {
 	 * @param response Respuesta HTTP enviada al cliente.
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	        throws ServletException, IOException {
 
-		String accion = request.getParameter("accion");
-		Log.ficheroLog("Petición POST recibida en /alumno con acción: " + accion);
+	    String accion = request.getParameter("accion");
+	    Log.ficheroLog("Petición POST recibida en /alumno con acción: " + accion);
 
-		if ("guardar".equals(accion)) {
-			guardarAlumno(request, response);
-		} else {
-			Log.ficheroLog("Acción POST no reconocida en /alumno: " + accion);
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			response.getWriter().write("{\"success\": false, \"mensaje\": \"Acción no válida\"}");
-		}
+	    if ("guardar".equals(accion)) {
+	        guardarAlumno(request, response);
+
+	    } else if ("modificar".equals(accion)) {
+	        modificarAlumno(request, response);
+
+	    } else {
+	        Log.ficheroLog("Acción POST no reconocida en /alumno: " + accion);
+	        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	        response.getWriter().write("{\"success\": false, \"mensaje\": \"Acción no válida\"}");
+	    }
 	}
+	
+	
+
 
 	/**
 	 * Guarda un nuevo alumno y su matriculación.
@@ -95,6 +103,47 @@ public class AlumnoControlador extends HttpServlet {
 		}
 	}
 	
+	
+	
+	private void modificarAlumno(HttpServletRequest request, HttpServletResponse response)
+	        throws IOException {
+
+	    try {
+	        String idAlumnoStr = request.getParameter("idAlumno");
+
+	        if (idAlumnoStr == null || idAlumnoStr.isEmpty()) {
+	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	            response.getWriter().write("{\"success\": false, \"mensaje\": \"Falta ID del alumno\"}");
+	            return;
+	        }
+
+	        Long idAlumno = Long.parseLong(idAlumnoStr);
+
+	        // Recoger datos del formulario
+	        String nombre = request.getParameter("nombre");
+	        String apellidos = request.getParameter("apellidos");
+
+	        AlumnoDto dto = new AlumnoDto();
+	        dto.setNombreAlumno(nombre);
+	        dto.setApellidoAlumno(apellidos);
+
+	        boolean modificado = servicio.modificarAlumno(idAlumno, dto);
+
+	        if (modificado) {
+	            Log.ficheroLog("✅ Alumno modificado correctamente ID: " + idAlumno);
+	            response.getWriter().write("{\"success\": true, \"mensaje\": \"Alumno modificado correctamente\"}");
+	        } else {
+	            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	            response.getWriter().write("{\"success\": false, \"mensaje\": \"Alumno no encontrado\"}");
+	        }
+
+	    } catch (Exception e) {
+	        Log.ficheroLog("❌ Error al modificar alumno: " + e.getMessage());
+	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	        response.getWriter().write("{\"success\": false, \"mensaje\": \"Error al modificar alumno\"}");
+	    }
+	}
+
 	 
 	  @Override
 	  /**

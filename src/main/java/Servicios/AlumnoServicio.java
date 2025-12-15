@@ -3,13 +3,16 @@ package Servicios;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
+import java.net.URL;
 
 import org.json.JSONObject;
 
 import com.google.gson.Gson;
 
 import Dtos.AlumnoConMatriculacionDto;
+import Dtos.AlumnoDto;
 
 /**
  * Clase que se encarga de la lógica de los métodos CRUD relacionados con Alumno.
@@ -41,6 +44,35 @@ public class AlumnoServicio {
             e.printStackTrace();
         }
     }
+    
+    
+    
+    public boolean modificarAlumno(Long idAlumno, AlumnoDto dto) {
+        try {
+            Gson gson = new Gson();
+            String json = gson.toJson(dto);
+
+            String urlApi = "http://localhost:9527/api/modificarAlumno/" + idAlumno;
+            URL url = new URL(urlApi);
+
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("PUT");
+            conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+            conn.setDoOutput(true);
+
+            try (OutputStream os = conn.getOutputStream()) {
+                os.write(json.getBytes("UTF-8"));
+            }
+
+            int responseCode = conn.getResponseCode();
+            return responseCode == HttpURLConnection.HTTP_OK;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 
     /**
      * Obtiene todos los alumnos desde la API.

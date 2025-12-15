@@ -62,7 +62,7 @@
 			<!-- Título -->
 			<div class="row">
 				<div class="col-12">
-					<h2 class="text-gestion">GESTIÓN DE CURSOS</h2>
+					<h2 class="titulo-asistencia mt-3"><u>GESTIÓN DE CURSOS</u></h2>
 				</div>
 			</div>
 

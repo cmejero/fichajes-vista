@@ -61,16 +61,16 @@
 			style="width: 85%; padding-bottom: 12vw;">
 
 			<div class="cabeza-titulos">
-				<h1 class="titulo-asistencia">Filtrar Fichajes</h1>
+				<h1 class="titulo-asistencia mb-2"><u>FILTRAR FICHAJES</u></h1>
 				<h2 class="subtitulo-asistencia">Consulta los registros de
 					asistencia del alumnado por clase, fecha o alumno específico.
 					Utiliza los filtros para encontrar rápidamente la información que
 					necesites.</h2>
 			</div>
 
-			<div class="row">
+			<div class="row mt-4">
 				<div class="col-md-12 col-sm-12 col-12 " style="text-align: center">
-					<label class="filtrado-asistencias mb-4" for="seleccion-filtro"><b>Filtrar
+					<label class="filtrado-asistencias mb-3" for="seleccion-filtro"><b>Filtrar
 							por:</b></label> <select class="opciones-asistencias" id="seleccion-filtro">
 						<option value="curso-fecha">Curso y Fecha</option>
 
