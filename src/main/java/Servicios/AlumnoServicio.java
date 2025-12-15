@@ -7,6 +7,8 @@ import java.net.HttpURLConnection;
 
 import org.json.JSONObject;
 
+import com.google.gson.Gson;
+
 import Dtos.AlumnoConMatriculacionDto;
 
 /**
@@ -54,6 +56,51 @@ public class AlumnoServicio {
             return "[]";
         }
     }
+    
+    /**
+     * Obtiene un alumno desde la API.
+     *
+     * @return Cadena JSON con el alumno.
+     */
+    public AlumnoConMatriculacionDto obtenerAlumnoPorId(Long id) {
+        try {
+            String json = ejecutarGet("http://localhost:9527/api/alumno/" + id);
+            return new Gson().fromJson(json, AlumnoConMatriculacionDto.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    
+    /**
+     * Elimina un alumno enviando una solicitud DELETE a la API.
+     *
+     * @param idAlumno ID del alumno a eliminar.
+     * @return true si se eliminó correctamente, false si no existía.
+     */
+    public boolean eliminarAlumno(Long idAlumno) {
+        try {
+            java.net.URI uri = new java.net.URI("http://localhost:9527/api/eliminarAlumno/" + idAlumno);
+            java.net.URL url = uri.toURL();
+
+            HttpURLConnection con = (HttpURLConnection) url.openConnection();
+            con.setRequestMethod("DELETE");
+            con.setRequestProperty("Accept", "application/json");
+
+            int code = con.getResponseCode();
+
+            return code == HttpURLConnection.HTTP_OK;
+
+        } catch (Exception e) {
+            System.out.println("❌ ERROR en AlumnoServicio.eliminarAlumno(): " + e.getMessage());
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+
+    
+
 
     /**
      * Ejecuta una solicitud HTTP GET a la URL indicada.

@@ -93,4 +93,69 @@ public class MatriculacionControlador extends HttpServlet {
 			response.getWriter().write("{\"success\": false, \"mensaje\": \"Error al guardar matrícula\"}");
 		}
 	}
+	
+	
+	/**
+     * Maneja la acción GET para obtener todas las matriculaciones de un alumno.
+     * Espera un parámetro "idAlumno" en la URL.
+     *
+     * @param request  Objeto HttpServletRequest con el parámetro "idAlumno".
+     * @param response Objeto HttpServletResponse para devolver JSON.
+     * @throws ServletException Si ocurre un error de servlet.
+     * @throws IOException      Si ocurre un error de entrada/salida.
+     */
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("application/json; charset=UTF-8");
+
+        String idAlumnoParam = request.getParameter("idAlumno");
+        if (idAlumnoParam != null) {
+            try {
+                Long idAlumno = Long.parseLong(idAlumnoParam);
+                String json = servicio.obtenerMatriculacionesPorAlumno(idAlumno);
+                response.getWriter().write(json);
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"error\":\"ID inválido\"}");
+            }
+        } else {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"error\":\"Falta el parámetro idAlumno\"}");
+        }
+    }
+
+    
+    @Override
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+
+        response.setContentType("application/json; charset=UTF-8");
+
+        // Leer el ID desde el query string
+        String idParam = request.getParameter("id");
+
+        if (idParam != null) {
+            try {
+                Long idMatriculacion = Long.parseLong(idParam);
+                boolean eliminado = servicio.eliminarMatriculacion(idMatriculacion);
+
+                if (eliminado) {
+                    response.getWriter().write("{\"success\": true, \"mensaje\": \"Matrícula eliminada correctamente\"}");
+                } else {
+                    response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                    response.getWriter().write("{\"success\": false, \"mensaje\": \"Matrícula no encontrada\"}");
+                }
+            } catch (NumberFormatException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"success\": false, \"mensaje\": \"ID inválido\"}");
+            }
+        } else {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"success\": false, \"mensaje\": \"Falta el parámetro id\"}");
+        }
+    }
+
+    
 }

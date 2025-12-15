@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Asistencia - Colegio Altair Sevilla</title>
+<title>Inicio - Colegio Altair Sevilla</title>
 <link rel="stylesheet" href="Css/Estilo.css">
 <!-- Bootstrap CSS (solo una vez) -->
 <link
@@ -15,14 +15,10 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css"
 	rel="stylesheet">
-<script
-	src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-	crossorigin="anonymous"></script>
-
 
 </head>
-<body>
 
+<body>
 	<!-- HEADER -->
 	<header>
 
@@ -37,15 +33,18 @@
 				</div>
 				<div class="col-md-8 col-sm-8 col-8">
 					<div class="row">
-						<div class="col-md-4 col-sm-4 col-4 alineacion" style="">
+						<div class="col-md-3 col-sm-3 col-3 alineacion" style="">
 							<a href="Index.jsp" class="letraNavegacion"
 								style="color: #FFD43B; text-decoration: underline">INICIO</a>
 						</div>
-						<div class="col-md-4 col-sm-4 col-4 alineacion">
+						<div class="col-md-3 col-sm-3 col-3 alineacion">
 							<a href="Asistencias.jsp" class="letraNavegacion">ASISTENCIAS</a>
 						</div>
-						<div class="col-md-4 col-sm-4 col-4 alineacion">
+						<div class="col-md-3 col-sm-3 col-3 alineacion">
 							<a href="Alumno.jsp" class="letraNavegacion">ALUMNOS</a>
+						</div>
+						<div class="col-md-3 col-sm-3 col-3 alineacion">
+							<a href="Cursos.jsp" class="letraNavegacion">CURSOS</a>
 						</div>
 					</div>
 

@@ -95,20 +95,74 @@ public class AlumnoControlador extends HttpServlet {
 		}
 	}
 	
+	 
 	  @Override
-	    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-	            throws ServletException, IOException {
+	  /**
+		 * Maneja las peticiones GET hacia /alumno. 
+		 *
+		 * @param request  Solicitud HTTP con los datos enviados desde la vista.
+		 * @param response Respuesta HTTP enviada al cliente.
+		 */
+	  protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	          throws ServletException, IOException {
 
-	        response.setContentType("application/json; charset=UTF-8");
+	      response.setContentType("application/json; charset=UTF-8");
 
-	        try {
-	            String json = servicio.obtenerTodosAlumnos();
-	            response.getWriter().write(json);
+	      String idParam = request.getParameter("id");
+	      if (idParam != null) {
+	          try {
+	              Long idAlumno = Long.parseLong(idParam);
+	              AlumnoConMatriculacionDto alumno = servicio.obtenerAlumnoPorId(idAlumno);
 
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-	            response.getWriter().write("{\"error\":\"No se pudieron obtener los alumnos\"}");
-	        }
-	    }
+	              if (alumno != null) {
+	                  response.getWriter().write(new Gson().toJson(alumno));
+	              } else {
+	                  response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	                  response.getWriter().write("{\"error\":\"Alumno no encontrado\"}");
+	              }
+
+	          } catch (NumberFormatException e) {
+	              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	              response.getWriter().write("{\"error\":\"ID inválido\"}");
+	          }
+	      } else {
+	          // Si no se pasa ID, devolver todos los alumnos
+	          response.getWriter().write(servicio.obtenerTodosAlumnos());
+	      }
+	  }
+
+	  
+	  @Override
+	  protected void doDelete(HttpServletRequest request, HttpServletResponse response)
+	          throws ServletException, IOException {
+
+	      response.setContentType("application/json; charset=UTF-8");
+
+	      // Leer ID del alumno de la query string, por ejemplo: /alumno?id=123
+	      String idParam = request.getParameter("id");
+	      if (idParam != null) {
+	          try {
+	              Long idAlumno = Long.parseLong(idParam);
+	              boolean eliminado = servicio.eliminarAlumno(idAlumno);
+
+	              if (eliminado) {
+	                  Log.ficheroLog("✅ Alumno eliminado correctamente con ID: " + idAlumno);
+	                  response.getWriter().write("{\"success\": true, \"mensaje\": \"Alumno eliminado correctamente\"}");
+	              } else {
+	                  Log.ficheroLog("⚠️ Alumno no encontrado con ID: " + idAlumno);
+	                  response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+	                  response.getWriter().write("{\"success\": false, \"mensaje\": \"Alumno no encontrado\"}");
+	              }
+
+	          } catch (NumberFormatException e) {
+	              response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	              response.getWriter().write("{\"success\": false, \"mensaje\": \"ID inválido\"}");
+	          }
+	      } else {
+	          response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	          response.getWriter().write("{\"success\": false, \"mensaje\": \"Falta parámetro ID\"}");
+	      }
+	  }
+
+
 }

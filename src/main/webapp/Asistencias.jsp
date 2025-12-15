@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alumno - Colegio Altair Sevilla</title>
+<title>Inicio - Colegio Altair Sevilla</title>
 <link rel="stylesheet" href="Css/Estilo.css">
 <!-- Bootstrap CSS (solo una vez) -->
 <link
@@ -33,15 +33,18 @@
 				</div>
 				<div class="col-md-8 col-sm-8 col-8">
 					<div class="row">
-						<div class="col-md-4 col-sm-4 col-4 alineacion" style="">
+						<div class="col-md-3 col-sm-3 col-3 alineacion" style="">
 							<a href="Index.jsp" class="letraNavegacion">INICIO</a>
 						</div>
-						<div class="col-md-4 col-sm-4 col-4 alineacion">
+						<div class="col-md-3 col-sm-3 col-3 alineacion">
 							<a href="Asistencias.jsp" class="letraNavegacion"
 								style="color: #FFD43B; text-decoration: underline">ASISTENCIAS</a>
 						</div>
-						<div class="col-md-4 col-sm-4 col-4 alineacion">
+						<div class="col-md-3 col-sm-3 col-3 alineacion">
 							<a href="Alumno.jsp" class="letraNavegacion">ALUMNOS</a>
+						</div>
+						<div class="col-md-3 col-sm-3 col-3 alineacion">
+							<a href="Cursos.jsp" class="letraNavegacion">CURSOS</a>
 						</div>
 					</div>
 
@@ -51,7 +54,6 @@
 			</div>
 		</div>
 	</header>
-
 
 	<main
 		class="asistencia-main d-flex flex-column align-items-center justify-content-center">
@@ -70,11 +72,11 @@
 				<div class="col-md-12 col-sm-12 col-12 " style="text-align: center">
 					<label class="filtrado-asistencias mb-4" for="seleccion-filtro"><b>Filtrar
 							por:</b></label> <select class="opciones-asistencias" id="seleccion-filtro">
-						<option value="curso-fecha"> Curso y Fecha</option>
-						
-						<option value="alumno-fecha"> Alumno y Fecha</option>
-						<option value="alumno-estado"> Alumno y Estado</option>
-						<option value="estadisticas"> Estadísticas</option>
+						<option value="curso-fecha">Curso y Fecha</option>
+
+						<option value="alumno-fecha">Alumno y Fecha</option>
+						<option value="alumno-estado">Alumno y Estado</option>
+						<option value="estadisticas">Estadísticas</option>
 					</select>
 				</div>
 			</div>
@@ -82,16 +84,16 @@
 			<!-- Filtro: Curso + Fecha -->
 			<div id="seccion-curso-fecha" class="filter-section">
 				<div>
-					<label for="entrada-curso" class="label-formulario">Curso:</label> <select
-						id="entrada-curso"></select>
+					<label for="entrada-curso" class="label-formulario">Curso:</label>
+					<select id="entrada-curso"></select>
 				</div>
 				<div>
-					<label for="entrada-grupo" class="label-formulario">Grupo:</label> <select
-						id="entrada-grupo"></select>
+					<label for="entrada-grupo" class="label-formulario">Grupo:</label>
+					<select id="entrada-grupo"></select>
 				</div>
 				<div>
-					<label for="entrada-fecha" class="label-formulario">Fecha:</label> <input type="date"
-						id="entrada-fecha" value="">
+					<label for="entrada-fecha" class="label-formulario">Fecha:</label>
+					<input type="date" id="entrada-fecha" value="">
 				</div>
 				<button class="filter-section button" id="boton-curso-fecha"
 					disabled>Filtrar</button>
@@ -102,18 +104,18 @@
 				style="display: none;">
 				<div style="position: relative;">
 					<input type="hidden" id="entrada-alumno-fecha-id"> <label
-						for="entrada-alumno-fecha" class="label-formulario">Alumno:</label> <input type="text"
-						id="entrada-alumno-fecha" value="">
+						for="entrada-alumno-fecha" class="label-formulario">Alumno:</label>
+					<input type="text" id="entrada-alumno-fecha" value="">
 					<div id="lista-autocompletar-fecha" class="autocomplete-items"
 						style="position: absolute; top: 100%; left: 0; right: 0; z-index: 1000; background: #fff; max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; padding: 4px 0; border-radius: 0 0 4px 4px;"></div>
 				</div>
 				<div>
-					<label for="inicio-fecha" class="label-formulario">F.Inicio:</label> <input type="date"
-						id="inicio-fecha" value="">
+					<label for="inicio-fecha" class="label-formulario">F.Inicio:</label>
+					<input type="date" id="inicio-fecha" value="">
 				</div>
 				<div>
-					<label for="fin-fecha" class="label-formulario">F.Fin:</label> <input type="date"
-						id="fin-fecha" value="">
+					<label for="fin-fecha" class="label-formulario">F.Fin:</label> <input
+						type="date" id="fin-fecha" value="">
 				</div>
 				<button class="boton-cargar" id="boton-alumno-fecha">Filtrar</button>
 			</div>
@@ -122,15 +124,15 @@
 			<div id="seccion-alumno-estado" class="filter-section"
 				style="display: none;">
 				<div style="position: relative;">
-					<label for="entrada-alumno-estado" class="label-formulario">Alumno:</label> <input
-						type="text" id="entrada-alumno-estado" value=""> <input
+					<label for="entrada-alumno-estado" class="label-formulario">Alumno:</label>
+					<input type="text" id="entrada-alumno-estado" value=""> <input
 						type="hidden" id="entrada-alumno-estado-id">
 					<div id="lista-autocompletar-estado" class="autocomplete-items"
 						style="position: absolute; top: 100%; left: 0; right: 0; z-index: 1000; background: #fff; max-height: 200px; overflow-y: auto; border-top: none;"></div>
 				</div>
 				<div>
-					<label for="seleccion-estado" class="label-formulario">Estado:</label> <select
-						id="seleccion-estado">
+					<label for="seleccion-estado" class="label-formulario">Estado:</label>
+					<select id="seleccion-estado">
 						<option value="PRESENTE">Presente</option>
 						<option value="COMPLETA">Completo</option>
 						<option value="SIN SALIDA">Sin salida</option>
@@ -138,8 +140,8 @@
 					</select>
 				</div>
 				<div>
-					<label for="seleccion-anio-escolar" class="label-formulario">Año Escolar:</label> <select
-						id="seleccion-anio-escolar"></select>
+					<label for="seleccion-anio-escolar" class="label-formulario">Año
+						Escolar:</label> <select id="seleccion-anio-escolar"></select>
 				</div>
 				<button class="boton-cargar" id="boton-alumno-estado">Filtrar</button>
 			</div>
@@ -149,18 +151,18 @@
 				style="display: none;">
 				<div style="position: relative;">
 					<input type="hidden" id="entrada-alumno-conteo-id"> <label
-						for="entrada-alumno-conteo" class="label-formulario">Alumno:</label> <input type="text"
-						id="entrada-alumno-conteo" value="">
+						for="entrada-alumno-conteo" class="label-formulario">Alumno:</label>
+					<input type="text" id="entrada-alumno-conteo" value="">
 					<div id="lista-autocompletar-conteo" class="autocomplete-items"
 						style="position: absolute; top: 100%; left: 0; right: 0; z-index: 1000; background: #fff; max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; align-items: center; padding: 4px 0; border-radius: 0 0 4px 4px;"></div>
 				</div>
 				<div>
-					<label for="inicio-conteo"class="label-formulario">Fecha Inicio:</label> <input type="date"
-						id="inicio-conteo">
+					<label for="inicio-conteo" class="label-formulario">Fecha
+						Inicio:</label> <input type="date" id="inicio-conteo">
 				</div>
 				<div>
-					<label for="fin-conteo" class="label-formulario">Fecha Fin:</label> <input type="date"
-						id="fin-conteo">
+					<label for="fin-conteo" class="label-formulario">Fecha Fin:</label>
+					<input type="date" id="fin-conteo">
 				</div>
 				<button class="boton-cargar" id="boton-alumno-conteo">Filtrar</button>
 				<div id="contenedor-tabla-conteo" style="margin-top: 20px;"></div>
@@ -269,7 +271,7 @@ document.addEventListener("DOMContentLoaded", async function() {
         defaultCursoOpt.selected = true;
         entradaCurso.appendChild(defaultCursoOpt);
 
-        const respCursos = await fetch('<%= request.getContextPath() %>/curso');
+        const respCursos = await fetch('<%=request.getContextPath()%>/curso');
         const cursos = await respCursos.json();
 
         cursos.forEach(curso => {
@@ -298,7 +300,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
             if (!entradaCurso.value) return;
 
-            const respGrupos = await fetch("<%= request.getContextPath() %>/grupo/" + encodeURIComponent(entradaCurso.value));
+            const respGrupos = await fetch("<%=request.getContextPath()%>/grupo/" + encodeURIComponent(entradaCurso.value));
 
             const grupos = await respGrupos.json();
             if (!Array.isArray(grupos)) return;
@@ -373,7 +375,7 @@ document.addEventListener("DOMContentLoaded", async function() {
     // Cargar alumnos y activar autocomplete
     // ------------------------------
     let alumnosCache = [];
-    fetch('<%= request.getContextPath() %>/asistencia?accion=todas')
+    fetch('<%=request.getContextPath()%>/asistencia?accion=todas')
     .then(res => res.json())
         .then(data => {
             const mapaAlumnos = new Map();

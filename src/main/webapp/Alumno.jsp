@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Alumno - Colegio Altair Sevilla</title>
+<title>Inicio - Colegio Altair Sevilla</title>
 <link rel="stylesheet" href="Css/Estilo.css">
 <!-- Bootstrap CSS (solo una vez) -->
 <link
@@ -33,15 +33,18 @@
 				</div>
 				<div class="col-md-8 col-sm-8 col-8">
 					<div class="row">
-						<div class="col-md-4 col-sm-4 col-4 alineacion" style="">
+						<div class="col-md-3 col-sm-3 col-3 alineacion" style="">
 							<a href="Index.jsp" class="letraNavegacion">INICIO</a>
 						</div>
-						<div class="col-md-4 col-sm-4 col-4 alineacion">
+						<div class="col-md-3 col-sm-3 col-3 alineacion">
 							<a href="Asistencias.jsp" class="letraNavegacion">ASISTENCIAS</a>
 						</div>
-						<div class="col-md-4 col-sm-4 col-4 alineacion">
+						<div class="col-md-3 col-sm-3 col-3 alineacion">
 							<a href="Alumno.jsp" class="letraNavegacion"
 								style="color: #FFD43B; text-decoration: underline">ALUMNOS</a>
+						</div>
+						<div class="col-md-3 col-sm-3 col-3 alineacion">
+							<a href="Cursos.jsp" class="letraNavegacion">CURSOS</a>
 						</div>
 					</div>
 
@@ -51,135 +54,200 @@
 			</div>
 		</div>
 	</header>
-<main class="asistencia-main d-flex flex-column align-items-center justify-content-center">
-    <section class="tabla-asistencia container shadow p-4 rounded">
-        <div class="row">
-            <div class="col-12">
-                <h2 class="text-gestion">GESTIÓN DE ALUMNOS</h2>
-            </div>
-        </div>
 
-        <!-- Botones de navegación -->
-        <div class="row d-flex justify-content-center">
-            <div class="col-12 d-flex justify-content-center mt-4 mb-2">
-                <button id="btnAgregarAlumno" class="boton-modificar">Agregar alumno</button>
-                <button id="btnMatricularAlumno" class="boton-modificar" style="margin-left: 18vw">Matricular</button>
-            </div>
-        </div>
+	<main
+		class="asistencia-main d-flex flex-column align-items-center justify-content-center">
+		<section class="tabla-asistencia container shadow p-4 rounded">
+			<div class="row">
+				<div class="col-12">
+					<h2 class="text-gestion">GESTIÓN DE ALUMNOS</h2>
+				</div>
+			</div>
 
-        <!-- Formulario Agregar Alumno -->
-        <div id="formAgregarAlumno" class="form-container mt-3">
-            <div class="row d-flex justify-content-center">
-                <div class="col-12 d-flex justify-content-center mb-3">
-                    <h3 class="text-registrar mt-2"><u>REGISTRAR NUEVO ALUMNO</u></h3>
-                </div>
-            </div>
+			<!-- Botones de navegación -->
+			<div class="row d-flex justify-content-center">
+				<div class="col-12 d-flex justify-content-center mt-4 mb-2">
+					<button id="btnVerAlumno" class="boton-modificar">Alumno</button>
+					<button id="btnAgregarAlumno" class="boton-modificar"
+						style="margin-left: 10vw">Agregar alumno</button>
+					<button id="btnMatricularAlumno" class="boton-modificar"
+						style="margin-left: 10vw">Matricular</button>
 
-            <form id="formAlumno1" onsubmit="return guardarAlumno();">
-                <input type="hidden" name="accion" value="guardar">
+				</div>
+			</div>
 
-                <div class="row d-flex justify-content-center mb-4">
-                    <div class="col-12 d-flex justify-content-center">
-                        <label for="nombre" class="label-formulario"><strong>Nombre:</strong></label>
-                        <input class="input-formulario2" type="text" id="nombre" name="nombre" required>
-                        <label for="apellidos" class="label-formulario"><strong>Apellidos:</strong></label>
-                        <input class="input-formulario2" type="text" id="apellidos" name="apellidos" required>
-                    </div>
-                </div>
+			<!-- Formulario Agregar Alumno -->
+			<div id="formAgregarAlumno" class="form-container mt-3">
+				<div class="row d-flex justify-content-center">
+					<div class="col-12 d-flex justify-content-center mb-3">
+						<h3 class="text-registrar mt-2">
+							<u>REGISTRAR NUEVO ALUMNO</u>
+						</h3>
+					</div>
+				</div>
 
-                <div class="row d-flex justify-content-center mb-3">
-                    <div class="col-12 d-flex justify-content-center">
-                        <h4 class="datos"><u>DATOS DE MATRICULACIÓN</u></h4>
-                    </div>
-                </div>
+				<form id="formAlumno1" onsubmit="return guardarAlumno();">
+					<input type="hidden" name="accion" value="guardar">
 
-                <div class="row d-flex justify-content-center mb-4">
-                    <div class="col-12 d-flex justify-content-center">
-                        <label for="curso" class="label-formulario"><strong>Curso:</strong></label>
-                        <select id="curso" name="curso" class="input-formulario" required>
-                            <option value="">Seleccione...</option>
-                        </select>
+					<div class="row d-flex justify-content-center mb-4">
+						<div class="col-12 d-flex justify-content-center">
+							<label for="nombre" class="label-formulario"><strong>Nombre:</strong></label>
+							<input class="input-formulario2" type="text" id="nombre"
+								name="nombre" required> <label for="apellidos"
+								class="label-formulario"><strong>Apellidos:</strong></label> <input
+								class="input-formulario2" type="text" id="apellidos"
+								name="apellidos" required>
+						</div>
+					</div>
 
-                        <label for="grupo" class="label-formulario"><strong>Grupo:</strong></label>
-                        <select id="grupo" name="grupo" class="input-formulario" required>
-                            <option value="">Seleccione...</option>
-                        </select>
+					<div class="row d-flex justify-content-center mb-3">
+						<div class="col-12 d-flex justify-content-center">
+							<h4 class="datos">
+								<u>DATOS DE MATRICULACIÓN</u>
+							</h4>
+						</div>
+					</div>
 
-                        <label for="anioEscolar" class="label-formulario"><strong>Año escolar:</strong></label>
-                        <select id="anioEscolar" name="anioEscolar" class="input-formulario" required>
-                            <option value="">Seleccione...</option>
-                        </select>
+					<div class="row d-flex justify-content-center mb-4">
+						<div class="col-12 d-flex justify-content-center">
+							<label for="curso" class="label-formulario"><strong>Curso:</strong></label>
+							<select id="curso" name="curso" class="input-formulario" required>
+								<option value="">Seleccione...</option>
+							</select> <label for="grupo" class="label-formulario"><strong>Grupo:</strong></label>
+							<select id="grupo" name="grupo" class="input-formulario" required>
+								<option value="">Seleccione...</option>
+							</select> <label for="anioEscolar" class="label-formulario"><strong>Año
+									escolar:</strong></label> <select id="anioEscolar" name="anioEscolar"
+								class="input-formulario" required>
+								<option value="">Seleccione...</option>
+							</select> <label for="uidLlave" class="label-formulario"><strong>UID:</strong></label>
+							<input class="input-formulario" type="text" id="uidLlave"
+								name="uidLlave" required>
+						</div>
+					</div>
 
-                        <label for="uidLlave" class="label-formulario"><strong>UID:</strong></label>
-                        <input class="input-formulario" type="text" id="uidLlave" name="uidLlave" required>
-                    </div>
-                </div>
+					<div class="row d-flex justify-content-center mb-3">
+						<div class="col-12 d-flex justify-content-center">
+							<button type="submit" class="boton">Guardar Alumno</button>
+						</div>
+					</div>
+				</form>
+			</div>
 
-                <div class="row d-flex justify-content-center mb-3">
-                    <div class="col-12 d-flex justify-content-center">
-                        <button type="submit" class="boton">Guardar Alumno</button>
-                    </div>
-                </div>
-            </form>
-        </div>
+			<!-- Formulario Matricular Alumno -->
+			<div id="formMatricular" class="form-container mt-3"
+				style="display: none;">
+				<div class="row d-flex justify-content-center">
+					<div class="col-12 d-flex justify-content-center mb-3">
+						<h3 class="text-registrar mt-2">
+							<u>REGISTRAR NUEVA MATRÍCULA</u>
+						</h3>
+					</div>
+				</div>
 
-        <!-- Formulario Matricular Alumno -->
-        <div id="formMatricular" class="form-container mt-3" style="display: none;">
-            <div class="row d-flex justify-content-center">
-                <div class="col-12 d-flex justify-content-center mb-3">
-                    <h3 class="text-registrar mt-2"><u>REGISTRAR NUEVA MATRÍCULA</u></h3>
-                </div>
-            </div>
+				<form id="formAlumno2" onsubmit="return guardarMatriculacion();">
+					<input type="hidden" name="accion" value="guardar"> <input
+						type="hidden" id="idAlumnoSeleccionado"
+						name="idAlumnoSeleccionado">
 
-            <form id="formAlumno2" onsubmit="return guardarMatriculacion();">
-                <input type="hidden" name="accion" value="guardar">
-                <input type="hidden" id="idAlumnoSeleccionado" name="idAlumnoSeleccionado">
+					<div class="row d-flex justify-content-center mb-4">
+						<div
+							class="col-12 d-flex align-items-center justify-content-center"
+							style="gap: 1rem; flex-wrap: wrap; position: relative;">
+							<label for="nombreYApellidos" class="label-formulario"
+								style="margin-right: -0.8vw"><strong>Nombre
+									completo:</strong></label>
+							<div class="input-wrapper"
+								style="position: relative; display: inline-block;">
+								<input type="text" id="nombreYApellidos" name="nombreYApellidos"
+									placeholder="Escribe el nombre del alumno" autocomplete="off"
+									style="padding: 0.06rem 0.8rem; width: 18rem;">
 
-                <div class="row d-flex justify-content-center mb-4">
-                    <div class="col-12 d-flex align-items-center justify-content-center" style="gap: 1rem; flex-wrap: wrap; position: relative;">
-                        <label for="nombreYApellidos" class="label-formulario" style="margin-right: -0.8vw"><strong>Nombre completo:</strong></label>
-                        <input type="text" id="nombreYApellidos" name="nombreYApellidos" placeholder="Escribe el nombre del alumno" autocomplete="off" style="padding: 0.06rem 0.8rem; flex: 0 1 18rem; max-width: 100%;">
-                        <button type="button" id="btnSeleccionarAlumno" class="boton-buscar">Seleccionar</button>
-                    </div>
-                </div>
+								<div id="lista-autocompletar-alumno"
+									style="position: absolute; top: 100%; left: 0; width: 100%; background: #fff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); z-index: 1000; max-height: 150px; overflow-y: auto;">
+								</div>
 
-                <div class="row d-flex justify-content-center mb-3">
-                    <div class="col-12 d-flex justify-content-center">
-                        <h4 class="datos"><u>DATOS DE MATRICULACIÓN</u></h4>
-                    </div>
-                </div>
 
-                <div class="row d-flex justify-content-center mb-4">
-                    <div class="col-12 d-flex justify-content-center">
-                        <label for="cursoMat" class="label-formulario"><strong>Curso:</strong></label>
-                        <select id="cursoMat" name="curso" class="input-formulario" required>
-                            <option value="">Seleccione...</option>
-                        </select>
+							</div>
 
-                        <label for="grupoMat" class="label-formulario"><strong>Grupo:</strong></label>
-                        <select id="grupoMat" name="grupo" class="input-formulario" required>
-                            <option value="">Seleccione...</option>
-                        </select>
+							<button type="button" id="btnSeleccionarAlumno"
+								class="boton-buscar">Seleccionar</button>
+						</div>
+					</div>
 
-                        <label for="anioEscolarMat" class="label-formulario"><strong>Año escolar:</strong></label>
-                        <select id="anioEscolarMat" name="anioEscolar" class="input-formulario" required>
-                            <option value="">Seleccione...</option>
-                        </select>
+					<div class="row d-flex justify-content-center mb-3">
+						<div class="col-12 d-flex justify-content-center">
+							<h4 class="datos">
+								<u>DATOS DE MATRICULACIÓN</u>
+							</h4>
+						</div>
+					</div>
 
-                        <label for="uidLlaveMat" class="label-formulario"><strong>UID:</strong></label>
-                        <input class="input-formulario" type="text" id="uidLlaveMat" name="uidLlave" required>
-                    </div>
-                </div>
+					<div class="row d-flex justify-content-center mb-4">
+						<div class="col-12 d-flex justify-content-center">
+							<label for="cursoMat" class="label-formulario"><strong>Curso:</strong></label>
+							<select id="cursoMat" name="curso" class="input-formulario"
+								required>
+								<option value="">Seleccione...</option>
+							</select> <label for="grupoMat" class="label-formulario"><strong>Grupo:</strong></label>
+							<select id="grupoMat" name="grupo" class="input-formulario"
+								required>
+								<option value="">Seleccione...</option>
+							</select> <label for="anioEscolarMat" class="label-formulario"><strong>Año
+									escolar:</strong></label> <select id="anioEscolarMat" name="anioEscolar"
+								class="input-formulario" required>
+								<option value="">Seleccione...</option>
+							</select> <label for="uidLlaveMat" class="label-formulario"><strong>UID:</strong></label>
+							<input class="input-formulario" type="text" id="uidLlaveMat"
+								name="uidLlave" required>
+						</div>
+					</div>
 
-                <div class="row d-flex justify-content-center mb-3">
-                    <div class="col-12 d-flex justify-content-center">
-                        <button type="submit" class="boton">Guardar Matrícula</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </section>
-</main>
+					<div class="row d-flex justify-content-center mb-3">
+						<div class="col-12 d-flex justify-content-center">
+							<button type="submit" class="boton">Guardar Matrícula</button>
+						</div>
+					</div>
+				</form>
+			</div>
+
+
+			<div id="formVerAlumno" class="form-container mt-3"
+				style="display: none;">
+				<div class="row d-flex justify-content-center mb-3">
+					<h3 class="text-registrar mt-2 mb-4">
+						<u>ACCIONES ALUMNO</u>
+					</h3>
+					<div
+						class="col-12 d-flex flex-wrap justify-content-center align-items-start"
+						style="gap: 0.5rem;">
+						<label for="nombreVerAlumno" class="label-formulario"
+							style="margin-top: 0.4rem;"><strong>Nombre
+								completo:</strong></label>
+
+						<div class="d-flex" style="position: relative; gap: 0.5rem;">
+							<input type="text" id="nombreVerAlumno"
+								placeholder="Escribe el nombre del alumno" autocomplete="off"
+								style="padding: 0.4rem 0.8rem; min-width: 18rem; box-sizing: border-box;">
+
+							<button type="button" id="btnSeleccionarAlumnoVer"
+								class="boton-buscar"
+								style="padding: 0.4rem 1rem; margin-left: 1.2vw">Seleccionar</button>
+
+							<div id="lista-autocompletar-ver-alumno"
+								style="position: absolute; top: 100%; left: 0; width: 100%; background: #fff; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); z-index: 1000; max-height: 150px; overflow-y: auto;">
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div id="resultadoAlumno" style="margin-top: 2rem;"></div>
+			</div>
+
+
+		</section>
+	</main>
 
 
 
@@ -210,28 +278,44 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnMatricular = document.getElementById('btnMatricularAlumno');
     const formAgregar = document.getElementById('formAgregarAlumno');
     const formMatricular = document.getElementById('formMatricular');
+    const btnVerAlumno = document.getElementById('btnVerAlumno');
+    const formVerAlumno = document.getElementById('formVerAlumno');
 
-    function setActivo(btnActivo) {
+    const resultadoAlumno = document.getElementById('resultadoAlumno');
+    let alumnosCache = [];
+    let idAlumnoSeleccionadoVer = null;
+
+    function mostrarFormulario(form, btn) {
+        formAgregar.style.display = 'none';
+        formMatricular.style.display = 'none';
+        formVerAlumno.style.display = 'none';
+
+        form.style.display = 'block';
+
         btnAgregar.classList.remove('activo');
         btnMatricular.classList.remove('activo');
-        btnActivo.classList.add('activo');
+        btnVerAlumno.classList.remove('activo');
+        btn.classList.add('activo');
     }
 
+    // --- Event listeners de los botones ---
     btnAgregar.addEventListener('click', () => {
-        formAgregar.style.display = 'block';
-        formMatricular.style.display = 'none';
-        setActivo(btnAgregar);
+        mostrarFormulario(formAgregar, btnAgregar);
     });
 
     btnMatricular.addEventListener('click', () => {
-        formAgregar.style.display = 'none';
-        formMatricular.style.display = 'block';
-        setActivo(btnMatricular);
+        mostrarFormulario(formMatricular, btnMatricular);
     });
 
-    formAgregar.style.display = 'block';
-    formMatricular.style.display = 'none';
-    setActivo(btnAgregar);
+    btnVerAlumno.addEventListener('click', () => {
+        resultadoAlumno.innerHTML = '';
+        nombreInputVer.value = '';
+        idAlumnoSeleccionadoVer = null;
+        mostrarFormulario(formVerAlumno, btnVerAlumno);
+    });
+
+    // --- Al cargar la página, mostrar Ver Alumno por defecto ---
+    mostrarFormulario(formVerAlumno, btnVerAlumno);
 
     // --- SELECTS ---
     const cursoAgregar = document.getElementById('curso');
@@ -312,6 +396,274 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- CARGAR CURSOS INICIALES ---
     cargarCursos();
 
+    // --- AUTOCOMPLETADO GENÉRICO ---
+    function crearAutocompletado(inputElement, listaElement, idHidden) {
+        inputElement.addEventListener('input', () => {
+            const valorUsuario = inputElement.value.trim();
+            idHidden.value = '';
+            listaElement.innerHTML = '';
+            if (!valorUsuario) return;
+
+            const valorLower = valorUsuario.toLowerCase();
+            const coincidencias = alumnosCache
+                .map(a => ({ id: a.idAlumno, nombre: a.nombreAlumno + ' ' + a.apellidoAlumno }))
+                .filter(a => a.nombre.toLowerCase().includes(valorLower))
+                .sort((a,b) => a.nombre.localeCompare(b.nombre))
+                .slice(0, 3);
+
+            coincidencias.forEach(a => {
+                const item = document.createElement('div');
+                item.textContent = a.nombre;
+                item.style.padding = '5px';
+                item.style.cursor = 'pointer';
+
+                item.addEventListener('mousedown', () => {
+                    inputElement.value = a.nombre;
+                    idHidden.value = a.id;
+                    listaElement.innerHTML = '';
+                });
+
+                listaElement.appendChild(item);
+            });
+        });
+
+        inputElement.addEventListener('blur', () => {
+            setTimeout(() => listaElement.innerHTML = '', 100);
+        });
+    }
+
+    // --- ELEMENTOS AUTOCOMPLETADO ---
+    const nombreInput = document.getElementById('nombreYApellidos');
+    const idAlumnoHidden = document.getElementById('idAlumnoSeleccionado');
+    const listaAutocomplete = document.getElementById('lista-autocompletar-alumno');
+
+    const nombreInputVer = document.getElementById('nombreVerAlumno');
+    const listaAutocompleteVer = document.getElementById('lista-autocompletar-ver-alumno');
+    const idAlumnoVer = document.createElement('input'); // hidden temporal si no existe
+    idAlumnoVer.type = 'hidden';
+    formVerAlumno.appendChild(idAlumnoVer);
+
+    // --- CARGAR ALUMNOS ---
+    fetch('<%=request.getContextPath()%>/alumno')
+        .then(res => res.json())
+        .then(data => { alumnosCache = data; })
+        .catch(err => console.error('Error cargando alumnos:', err));
+
+    // --- INICIALIZAR AUTOCOMPLETADOS ---
+    crearAutocompletado(nombreInput, listaAutocomplete, idAlumnoHidden);
+    crearAutocompletado(nombreInputVer, listaAutocompleteVer, idAlumnoVer);
+
+    // --- BOTONES SELECCIONAR ALUMNO ---
+    document.getElementById('btnSeleccionarAlumno').addEventListener('click', () => {
+        const valor = nombreInput.value.trim().toLowerCase();
+        const seleccionado = alumnosCache
+            .map(a => ({id: a.idAlumno, nombre: a.nombreAlumno + ' ' + a.apellidoAlumno}))
+            .find(a => a.nombre.toLowerCase() === valor);
+
+        if (!seleccionado) {
+            alert('Selecciona un alumno válido de la sugerencia inline');
+            idAlumnoHidden.value = '';
+            return;
+        }
+
+        idAlumnoHidden.value = seleccionado.id;
+        alert('Alumno seleccionado: ' + seleccionado.nombre);
+    });
+
+    document.getElementById('btnSeleccionarAlumnoVer').addEventListener('click', () => {
+        const valor = nombreInputVer.value.trim().toLowerCase();
+        const seleccionado = alumnosCache
+            .map(a => ({id: a.idAlumno, nombre: a.nombreAlumno + ' ' + a.apellidoAlumno}))
+            .find(a => a.nombre.toLowerCase() === valor);
+
+        if (!seleccionado) {
+            alert('Selecciona un alumno válido de la sugerencia inline');
+            idAlumnoVer.value = '';
+            return;
+        }
+
+        idAlumnoSeleccionadoVer = seleccionado.id;
+        idAlumnoVer.value = seleccionado.id;
+        alert('Alumno seleccionado: ' + seleccionado.nombre);
+        mostrarDatosAlumno(seleccionado.id);
+    });
+
+    // --- FUNCIONES MOSTRAR Y ELIMINAR ALUMNO/MATRÍCULA ---
+window.mostrarDatosAlumno = function(idAlumno) {
+    fetch('<%=request.getContextPath()%>/alumno?id=' + idAlumno)
+        .then(res => res.json())
+        .then(alumno => {
+
+            fetch('<%=request.getContextPath()%>/matriculacion?idAlumno=' + idAlumno)
+                .then(res => res.json())
+                .then(matriculas => {
+                    alumno.matriculas = matriculas;
+
+                    const resultado = document.createElement('div');
+
+                    // --- Tabla de Alumno ---
+                    const tableAlumno = document.createElement('table');
+                    tableAlumno.classList.add('table', 'table-striped', 'table-hover', 'table-bordered', 'shadow-sm');
+                    tableAlumno.style.width = '80%';
+                    tableAlumno.style.margin = '1rem auto';
+
+                    const theadAlumno = document.createElement('thead');
+                    const headerRowAlumno = document.createElement('tr');
+                    ['Nombre', 'Apellidos', 'Acción'].forEach(h => {
+                        const th = document.createElement('th');
+                        th.textContent = h;
+                        th.style.backgroundColor = "#032b38";
+                        th.style.color = "#ffffff";
+                        th.style.textAlign = 'center';
+                        th.style.position = 'sticky';
+                        th.style.top = '0';
+                        headerRowAlumno.appendChild(th);
+                    });
+                    theadAlumno.appendChild(headerRowAlumno);
+                    tableAlumno.appendChild(theadAlumno);
+
+                    const tbodyAlumno = document.createElement('tbody');
+                    const trAlumno = document.createElement('tr');
+                    trAlumno.style.backgroundColor = "#ffffff";
+                    [alumno.nombreAlumno, alumno.apellidoAlumno].forEach(val => {
+                        const td = document.createElement('td');
+                        td.textContent = val;
+                        td.style.textAlign = 'center';
+                        trAlumno.appendChild(td);
+                    });
+
+                 
+                    const tdAccion = document.createElement('td');
+                    tdAccion.style.textAlign = 'center';
+                    tdAccion.style.verticalAlign = 'middle';
+                    const btnEliminar = document.createElement('button');
+                    btnEliminar.classList.add('btn', 'btn-danger');
+                    btnEliminar.style.padding = '0.25rem 0.4rem'; 
+                    btnEliminar.style.fontSize = '1.2rem'; 
+                    btnEliminar.style.lineHeight = '1'; 
+                    btnEliminar.innerHTML = '<i class="bi bi-trash"></i>'; 
+                    btnEliminar.onclick = () => eliminarAlumno(alumno.idAlumno);
+                    tdAccion.appendChild(btnEliminar);
+                    trAlumno.appendChild(tdAccion);
+
+
+                    tbodyAlumno.appendChild(trAlumno);
+                    tableAlumno.appendChild(tbodyAlumno);
+                    resultado.appendChild(tableAlumno);
+
+                    // --- Tabla de Matriculas ---
+                    if (alumno.matriculas && alumno.matriculas.length > 0) {
+                        const tableMatriculas = document.createElement('table');
+                        tableMatriculas.classList.add('table', 'table-striped', 'table-hover', 'table-bordered', 'shadow-sm');
+                        tableMatriculas.style.width = '80%';
+                        tableMatriculas.style.margin = '2rem auto'; 
+
+                        const theadMat = document.createElement('thead');
+                        const headerRowMat = document.createElement('tr');
+                        ['Curso', 'Grupo', 'Año escolar', 'UID', 'Acción'].forEach(h => {
+                            const th = document.createElement('th');
+                            th.textContent = h;
+                            th.style.backgroundColor = "#032b38";
+                            th.style.color = "#ffffff";
+                            th.style.textAlign = 'center';
+                            th.style.position = 'sticky';
+                            th.style.top = '0';
+                            headerRowMat.appendChild(th);
+                        });
+                        theadMat.appendChild(headerRowMat);
+                        tableMatriculas.appendChild(theadMat);
+
+                        const tbodyMat = document.createElement('tbody');
+                        alumno.matriculas.forEach((m, index) => {
+                            const tr = document.createElement('tr');
+                            tr.style.backgroundColor = index % 2 === 0 ? "#ffffff" : "#f1f3f5";
+
+                            [m.nombreCurso, m.nombreGrupo, m.anioEscolar, m.uidLlave].forEach(val => {
+                                const td = document.createElement('td');
+                                td.textContent = val;
+                                td.style.textAlign = 'center';
+                                tr.appendChild(td);
+                            });
+
+                            const tdAcc = document.createElement('td');
+                            tdAcc.style.textAlign = 'center';
+                            tdAcc.style.verticalAlign = 'middle';
+                            const btnElim = document.createElement('button');
+                            btnElim.classList.add('btn', 'btn-danger');
+                            btnElim.style.padding = '0.25rem 0.4rem';
+                            btnElim.style.fontSize = '1.2rem';
+                            btnElim.style.lineHeight = '1';
+                            btnElim.innerHTML = '<i class="bi bi-trash"></i>';
+                            btnElim.onclick = () => eliminarMatricula(m.idMatriculacion);
+                            tdAcc.appendChild(btnElim);
+                            tr.appendChild(tdAcc);
+
+
+                            tbodyMat.appendChild(tr);
+                        });
+
+                        tableMatriculas.appendChild(tbodyMat);
+                        resultado.appendChild(tableMatriculas);
+                    }
+
+                    resultadoAlumno.innerHTML = '';
+                    resultadoAlumno.appendChild(resultado);
+
+                }).catch(err => console.error('Error cargando matriculas:', err));
+
+        }).catch(err => console.error('Error cargando alumno:', err));
+}
+
+
+window.eliminarAlumno = function(idAlumno) {
+    const confirmacion = prompt('Escribe "si" para confirmar la eliminación del alumno:');
+    
+    if (!confirmacion || confirmacion.toLowerCase() !== 'si') {
+        alert('Eliminación cancelada');
+        return;
+    }
+
+    fetch('<%=request.getContextPath()%>/alumno?id=' + idAlumno, { method: 'DELETE' })
+        .then(res => res.json())
+        .then(respuesta => {
+            if (respuesta.success) {
+                alert('Alumno eliminado correctamente');
+                resultadoAlumno.innerHTML = '';
+                nombreInputVer.value = '';
+                
+                fetch('<%=request.getContextPath()%>/alumno')
+                .then(res => res.json())
+                .then(data => { 
+                    alumnosCache = data; 
+            
+                });
+            } else {
+                alert('Error al eliminar alumno: ' + (respuesta.mensaje || 'Desconocido'));
+            }
+        })
+        .catch(err => {
+            console.error('Error al eliminar alumno:', err);
+            alert('Error al eliminar alumno');
+        });
+}
+
+
+window.eliminarMatricula = function(idMatriculacion) {
+    const confirmacion = prompt('Escribe "si" para confirmar la eliminación de la matrícula:');
+    if (confirmacion !== 'si') return;
+
+    fetch('<%=request.getContextPath()%>/matriculacion?id=' + idMatriculacion, { method: 'DELETE' })
+        .then(res => {
+            if (res.ok) {
+                alert('Matrícula eliminada correctamente');
+                if (idAlumnoSeleccionadoVer) mostrarDatosAlumno(idAlumnoSeleccionadoVer);
+            } else {
+                alert('Error al eliminar matrícula');
+            }
+        });
+}
+
+
     // --- FUNCIONES GUARDAR ALUMNO Y MATRICULACIÓN ---
     window.guardarAlumno = function() {
         const formData = {
@@ -339,6 +691,10 @@ document.addEventListener('DOMContentLoaded', () => {
                     document.getElementById('formAlumno1').reset();
                     grupoAgregar.innerHTML = '<option value="">Seleccione...</option>';
                     anioAgregar.innerHTML = '<option value="">Seleccione...</option>';
+                    
+                    fetch('<%=request.getContextPath()%>/alumno')
+                    .then(res => res.json())
+                    .then(data => { alumnosCache = data; });
                 } else {
                     console.error('Error al guardar alumno:', xhr.status, xhr.responseText);
                     alert('Error al guardar alumno');
@@ -392,51 +748,6 @@ document.addEventListener('DOMContentLoaded', () => {
         return false;
     }
 
-    // --- AUTOCOMPLETADO ALUMNOS ---
-    const nombreInput = document.getElementById('nombreYApellidos');
-    const idAlumnoHidden = document.getElementById('idAlumnoSeleccionado');
-    let alumnosCache = [];
-
-    fetch('<%=request.getContextPath()%>/alumno')
-        .then(res => res.json())
-        .then(data => { alumnosCache = data; })
-        .catch(err => console.error('Error cargando alumnos:', err));
-
-    nombreInput.addEventListener('input', () => {
-        const valorUsuario = nombreInput.value;
-        idAlumnoHidden.value = '';
-        if (!valorUsuario) return;
-
-        const valorLower = valorUsuario.toLowerCase();
-        const coincidencia = alumnosCache
-            .map(a => ({id: a.idAlumno, nombre: a.nombreAlumno + ' ' + a.apellidoAlumno}))
-            .filter(a => a.nombre.toLowerCase().includes(valorLower))
-            .sort((a,b) => a.nombre.localeCompare(b.nombre))[0];
-
-        if (!coincidencia) return;
-
-        if (coincidencia.nombre.toLowerCase().startsWith(valorLower)) {
-            const parteAutocompletada = coincidencia.nombre.substring(valorUsuario.length);
-            nombreInput.value = valorUsuario + parteAutocompletada;
-            nombreInput.setSelectionRange(valorUsuario.length, coincidencia.nombre.length);
-        }
-    });
-
-    document.getElementById('btnSeleccionarAlumno').addEventListener('click', () => {
-        const valor = nombreInput.value.trim().toLowerCase();
-        const seleccionado = alumnosCache
-            .map(a => ({id: a.idAlumno, nombre: a.nombreAlumno + ' ' + a.apellidoAlumno}))
-            .find(a => a.nombre.toLowerCase() === valor);
-
-        if (!seleccionado) {
-            alert('Selecciona un alumno válido de la sugerencia inline');
-            idAlumnoHidden.value = '';
-            return;
-        }
-
-        idAlumnoHidden.value = seleccionado.id;
-        alert('Alumno seleccionado: ' + seleccionado.nombre);
-    });
 });
 </script>
 

@@ -33,15 +33,18 @@
 				</div>
 				<div class="col-md-8 col-sm-8 col-8">
 					<div class="row">
-						<div class="col-md-4 col-sm-4 col-4 alineacion" style="">
+						<div class="col-md-3 col-sm-3 col-3 alineacion" style="">
 							<a href="Index.jsp" class="letraNavegacion"
 								style="color: #FFD43B; text-decoration: underline">INICIO</a>
 						</div>
-						<div class="col-md-4 col-sm-4 col-4 alineacion">
+						<div class="col-md-3 col-sm-3 col-3 alineacion">
 							<a href="Asistencias.jsp" class="letraNavegacion">ASISTENCIAS</a>
 						</div>
-						<div class="col-md-4 col-sm-4 col-4 alineacion">
+						<div class="col-md-3 col-sm-3 col-3 alineacion">
 							<a href="Alumno.jsp" class="letraNavegacion">ALUMNOS</a>
+						</div>
+						<div class="col-md-3 col-sm-3 col-3 alineacion">
+							<a href="Cursos.jsp" class="letraNavegacion">CURSOS</a>
 						</div>
 					</div>
 
