@@ -180,6 +180,14 @@ public class MatriculacionControlador extends HttpServlet {
 
     
     @Override
+    /**
+     * Atiende solicitudes DELETE para eliminar una matrícula por ID.
+     *
+     * @param request  Solicitud HTTP con parámetro "id".
+     * @param response Respuesta HTTP con JSON indicando resultado.
+     * @throws ServletException Si ocurre un error en el servlet.
+     * @throws IOException      Si ocurre un error de entrada/salida.
+     */
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

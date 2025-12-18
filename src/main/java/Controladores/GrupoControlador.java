@@ -1,9 +1,6 @@
 package Controladores;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-
-import com.google.gson.Gson;
 
 import Dtos.GrupoDto;
 import Log.Log;
@@ -26,31 +23,137 @@ public class GrupoControlador extends HttpServlet {
     private static final long serialVersionUID = 1L;
     private GrupoServicio servicio = new GrupoServicio();
     
+    /**
+     * Maneja peticiones POST hacia /grupo. Delegará según la acción: "guardar" o "modificar".
+     *
+     * @param request  Solicitud HTTP con parámetros de acción y datos del grupo.
+     * @param response Respuesta HTTP con JSON indicando resultado.
+     * @throws ServletException Si ocurre un error en el servlet.
+     * @throws IOException      Si ocurre un error de entrada/salida.
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         response.setContentType("application/json; charset=UTF-8");
 
-        try (BufferedReader reader = request.getReader()) {
-            // Leer JSON del cuerpo de la petición
-            GrupoDto dto = new Gson().fromJson(reader, GrupoDto.class);
+        String accion = request.getParameter("accion");
+        Log.ficheroLog("Petición POST recibida en /grupo con acción: " + accion);
 
-            // Log de recepción
-            Log.ficheroLog("JSON recibido para guardar grupo: " + new Gson().toJson(dto));
+        if ("guardar".equals(accion)) {
+            guardarGrupo(request, response);
 
-            // Guardar grupo usando tu servicio
+        } else if ("modificar".equals(accion)) {
+            modificarGrupo(request, response);
+
+        } else {
+            Log.ficheroLog("Acción POST no reconocida en /grupo: " + accion);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write(
+                "{\"success\": false, \"mensaje\": \"Acción no válida\"}"
+            );
+        }
+    }
+
+    /**
+     * Guarda un nuevo grupo.
+     *
+     * @param request  Solicitud HTTP con parámetros del grupo.
+     * @param response Respuesta HTTP con JSON indicando resultado.
+     * @throws IOException Si ocurre un error de entrada/salida.
+     */
+    private void guardarGrupo(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+
+        try {
+            String nombreGrupo = request.getParameter("nombreGrupo");
+            String cursoIdStr = request.getParameter("idCurso");
+
+            if (nombreGrupo == null || nombreGrupo.trim().isEmpty()
+                    || cursoIdStr == null || cursoIdStr.isEmpty()) {
+
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write(
+                    "{\"success\": false, \"mensaje\": \"Nombre del grupo y curso obligatorios\"}"
+                );
+                return;
+            }
+
+            Long cursoId = Long.parseLong(cursoIdStr);
+
+            GrupoDto dto = new GrupoDto();
+            dto.setNombreGrupo(nombreGrupo);
+            dto.setCursoId(cursoId);
+
             servicio.guardarGrupo(dto);
 
-            // Respuesta al cliente
-            response.getWriter().write("{\"success\": true, \"mensaje\": \"Grupo guardado correctamente\"}");
-            Log.ficheroLog("✅ Grupo guardado correctamente: " + dto.getNombreGrupo());
+            Log.ficheroLog("✅ Grupo guardado correctamente: " + nombreGrupo);
+            response.getWriter().write(
+                "{\"success\": true, \"mensaje\": \"Grupo guardado correctamente\"}"
+            );
 
         } catch (Exception e) {
-            e.printStackTrace();
             Log.ficheroLog("❌ Error al guardar grupo: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().write("{\"success\": false, \"mensaje\": \"Error al guardar grupo\"}");
+            response.getWriter().write(
+                "{\"success\": false, \"mensaje\": \"Error al guardar grupo\"}"
+            );
+        }
+    }
+
+    /**
+     * Modifica un grupo existente.
+     *
+     * @param request  Solicitud HTTP con ID y datos del grupo.
+     * @param response Respuesta HTTP con JSON indicando resultado.
+     * @throws IOException Si ocurre un error de entrada/salida.
+     */
+    private void modificarGrupo(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+
+        try {
+            String idGrupoStr = request.getParameter("idGrupo");
+
+            if (idGrupoStr == null || idGrupoStr.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write(
+                    "{\"success\": false, \"mensaje\": \"Falta ID del grupo\"}"
+                );
+                return;
+            }
+
+            Long idGrupo = Long.parseLong(idGrupoStr);
+
+            String nombreGrupo = request.getParameter("nombreGrupo");
+            String cursoIdStr = request.getParameter("idCurso");
+
+            GrupoDto dto = new GrupoDto();
+            dto.setNombreGrupo(nombreGrupo);
+
+            if (cursoIdStr != null && !cursoIdStr.isEmpty()) {
+                dto.setCursoId(Long.parseLong(cursoIdStr));
+            }
+
+            boolean modificado = servicio.modificarGrupo(idGrupo, dto);
+
+            if (modificado) {
+                Log.ficheroLog("✅ Grupo modificado correctamente ID: " + idGrupo);
+                response.getWriter().write(
+                    "{\"success\": true, \"mensaje\": \"Grupo modificado correctamente\"}"
+                );
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write(
+                    "{\"success\": false, \"mensaje\": \"Grupo no encontrado\"}"
+                );
+            }
+
+        } catch (Exception e) {
+            Log.ficheroLog("❌ Error al modificar grupo: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write(
+                "{\"success\": false, \"mensaje\": \"Error al modificar grupo\"}"
+            );
         }
     }
 
@@ -95,6 +198,14 @@ public class GrupoControlador extends HttpServlet {
     
     
     @Override
+    /**
+     * Atiende solicitudes DELETE para eliminar un grupo por ID.
+     *
+     * @param request  Solicitud HTTP con parámetro "id".
+     * @param response Respuesta HTTP con JSON indicando resultado.
+     * @throws ServletException Si ocurre un error en el servlet.
+     * @throws IOException      Si ocurre un error de entrada/salida.
+     */
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 

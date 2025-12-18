@@ -104,7 +104,16 @@ public class AlumnoControlador extends HttpServlet {
 	}
 	
 	
-	
+	/**
+	 * Modifica los datos de un alumno existente.
+	 * <p>
+	 * Recoge los parámetros enviados desde el formulario y actualiza el alumno correspondiente
+	 * en la base de datos. Valida que se haya proporcionado un ID de alumno válido.
+	 *
+	 * @param request  Contiene los parámetros enviados desde el formulario (idAlumno, nombre, apellidos).
+	 * @param response Respuesta con JSON indicando éxito, error o alumno no encontrado.
+	 * @throws IOException Si ocurre un error de entrada/salida al enviar la respuesta.
+	 */
 	private void modificarAlumno(HttpServletRequest request, HttpServletResponse response)
 	        throws IOException {
 
@@ -182,6 +191,15 @@ public class AlumnoControlador extends HttpServlet {
 
 	  
 	  @Override
+	  /**
+	   * Maneja las peticiones DELETE hacia /alumno.
+	   * Elimina un alumno existente a partir del ID proporcionado
+	   *
+	   * @param request  Solicitud HTTP que contiene el parámetro "id" del alumno a eliminar.
+	   * @param response Respuesta HTTP con JSON indicando el resultado de la operación.
+	   * @throws ServletException Si ocurre un error en el servlet.
+	   * @throws IOException      Si ocurre un error de entrada/salida al enviar la respuesta.
+	   */
 	  protected void doDelete(HttpServletRequest request, HttpServletResponse response)
 	          throws ServletException, IOException {
 

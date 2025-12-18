@@ -140,6 +140,14 @@ public class MatriculacionServicio {
 		}
 	}
 
+	
+	/**
+	 * Ejecuta una petición HTTP GET a la URL indicada y devuelve la respuesta.
+	 *
+	 * @param urlStr URL completa a la que se realizará la petición GET.
+	 * @return Respuesta de la petición como String.
+	 * @throws Exception Si ocurre un error en la conexión o la respuesta HTTP no es 200.
+	 */
 	private String ejecutarGet(String urlStr) throws Exception {
 		java.net.URI uri = new java.net.URI(urlStr);
 		java.net.URL url = uri.toURL();

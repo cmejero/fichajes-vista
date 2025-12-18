@@ -46,7 +46,13 @@ public class AlumnoServicio {
     }
     
     
-    
+    /**
+     * Modifica los datos de un alumno mediante la API externa.
+     *
+     * @param idAlumno ID del alumno a modificar.
+     * @param dto      Objeto con los nuevos datos del alumno.
+     * @return true si la modificación fue exitosa, false en caso contrario.
+     */
     public boolean modificarAlumno(Long idAlumno, AlumnoDto dto) {
         try {
             Gson gson = new Gson();

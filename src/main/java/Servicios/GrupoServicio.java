@@ -3,10 +3,13 @@ package Servicios;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.json.JSONObject;
+
+import com.google.gson.Gson;
 
 import Dtos.GrupoDto;
 import Log.Log;
@@ -18,18 +21,61 @@ import Log.Log;
  */
 public class GrupoServicio {
 
+	/**
+	 * Guarda un nuevo grupo mediante la API REST externa.
+	 *
+	 * @param dto Objeto con los datos del grupo a guardar.
+	 */
 	public void guardarGrupo(GrupoDto dto) {
-		try {
-			JSONObject json = new JSONObject();
-			json.put("nombreGrupo", dto.getNombreGrupo());
-			json.put("cursoId", dto.getCursoId());
-			String resp = ejecutarPost( "http://localhost:9527/api/guardarGrupo", json);
+	    try {
+	        JSONObject json = new JSONObject();
+	        json.put("nombreGrupo", dto.getNombreGrupo());
+	        json.put("cursoId", dto.getCursoId());
+	        String resp = ejecutarPost("http://localhost:9527/api/guardarGrupo", json);
 
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
-	
+
+	/**
+	 * Modifica un grupo existente mediante la API REST externa.
+	 *
+	 * @param idGrupo ID del grupo a modificar.
+	 * @param dto     Objeto con los nuevos datos del grupo.
+	 * @return true si la modificación fue exitosa, false en caso contrario.
+	 */
+	public boolean modificarGrupo(Long idGrupo, GrupoDto dto) {
+	    try {
+	        Gson gson = new Gson();
+	        String json = gson.toJson(dto);
+
+	        String urlApi = "http://localhost:9527/api/modificarGrupo/" + idGrupo;
+	        URL url = new URL(urlApi);
+
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setRequestMethod("PUT");
+	        conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+	        conn.setDoOutput(true);
+
+	        try (OutputStream os = conn.getOutputStream()) {
+	            os.write(json.getBytes("UTF-8"));
+	        }
+
+	        return conn.getResponseCode() == HttpURLConnection.HTTP_OK;
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
+	/**
+	 * Obtiene todos los grupos desde la API REST externa.
+	 *
+	 * @return JSON con todos los grupos.
+	 * @throws Exception Si ocurre un error al conectar con la API.
+	 */
 	public String obtenerTodosGruposDesdeAPI() throws Exception {
 	    URL url = new URL("http://localhost:9527/api/grupos");
 	    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -86,7 +132,12 @@ public class GrupoServicio {
         return salida.toString();
     }
     
-    
+    /**
+     * Elimina un grupo mediante la API REST externa.
+     *
+     * @param idGrupo ID del grupo a eliminar.
+     * @return true si la eliminación fue exitosa, false en caso contrario.
+     */
     public boolean eliminarGrupo(Long idGrupo) {
         try {
             java.net.URI uri = new java.net.URI("http://localhost:9527/api/eliminarGrupo/" + idGrupo);

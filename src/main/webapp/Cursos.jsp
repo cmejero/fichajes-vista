@@ -62,7 +62,9 @@
 			<!-- Título -->
 			<div class="row">
 				<div class="col-12">
-					<h2 class="titulo-asistencia mt-3"><u>GESTIÓN DE CURSOS</u></h2>
+					<h2 class="titulo-asistencia mt-3">
+						<u>GESTIÓN DE CURSOS</u>
+					</h2>
 				</div>
 			</div>
 
@@ -175,6 +177,77 @@
 
 
 		</section>
+
+
+
+		<!-- MODAL EDITAR CURSO -->
+		<div class="modal fade" id="modalEditarCurso" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h5 class="modal-title">Modificar curso</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+
+					<div class="modal-body">
+						<input type="hidden" id="editIdCurso">
+
+						<div class="mb-3">
+							<label class="form-label">Nombre del curso</label> <input
+								type="text" id="editNombreCurso" class="form-control" required>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+						<button class="btn btn-warning" onclick="modificarCurso()">Guardar
+							cambios</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- MODAL EDITAR GRUPO -->
+
+		<div class="modal fade" id="modalEditarGrupo" tabindex="-1">
+			<div class="modal-dialog">
+				<div class="modal-content">
+
+					<div class="modal-header">
+						<h5 class="modal-title">Modificar Grupo</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+					</div>
+
+					<div class="modal-body">
+						<input type="hidden" id="editIdGrupo">
+
+						<div class="mb-3">
+							<label class="form-label">Nombre del grupo</label> <input
+								type="text" id="editNombreGrupo" class="form-control" required>
+						</div>
+
+						<div class="mb-3">
+							<label class="form-label">Curso</label> <select
+								id="editCursoGrupo" class="form-select" required>
+								<!-- se rellenará con JS -->
+							</select>
+						</div>
+					</div>
+
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary"
+							data-bs-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-warning"
+							onclick="modificarGrupo()">Guardar cambios</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+
 	</main>
 	<footer class="altair-footer mt-auto">
 		<div class="container">
@@ -322,22 +395,40 @@
 											tdN.textContent = c.nombreCurso
 													|| '';
 											tdN.style.textAlign = 'center';
-											var tdAcc = document
-													.createElement('td');
+											var tdAcc = document.createElement('td');
 											tdAcc.style.textAlign = 'center';
-											var btnDel = document
-													.createElement('button');
+											tdAcc.style.whiteSpace = 'nowrap';
+											tdAcc.style.padding = '0.25rem';
+											tdAcc.style.verticalAlign = 'middle';
+						                    tdAcc.style.width = '30%';
+						                   
+
+											// --- BOTÓN MODIFICAR ---
+											var btnEdit = document.createElement('button');
+											btnEdit.className = 'btn btn-warning';
+											btnEdit.innerHTML = '<i class="bi bi-pencil-square"></i>';
+											btnEdit.style.fontSize = '1.2rem';
+											btnEdit.style.padding = '0.25rem 0.4rem';
+											btnEdit.style.lineHeight = '1';
+											btnEdit.style.marginRight = '0.35rem';
+											btnEdit.onclick = function () {
+											    abrirModalEditarCurso(c);
+											};
+
+											// --- BOTÓN ELIMINAR ---
+											var btnDel = document.createElement('button');
 											btnDel.className = 'btn btn-danger';
 											btnDel.innerHTML = '<i class="bi bi-trash"></i>';
 											btnDel.style.fontSize = '1.2rem';
-											btnDel.classList.add('btn',
-													'btn-danger');
 											btnDel.style.padding = '0.25rem 0.4rem';
 											btnDel.style.lineHeight = '1';
-											btnDel.onclick = function() {
-												eliminarCurso(c.idCurso);
+											btnDel.onclick = function () {
+											    eliminarCurso(c.idCurso);
 											};
+
+											tdAcc.appendChild(btnEdit);
 											tdAcc.appendChild(btnDel);
+
 
 											tr.appendChild(tdN);
 											tr.appendChild(tdAcc);
@@ -395,20 +486,37 @@
 											tdC.style.textAlign = 'center';
 											var tdAcc = document
 													.createElement('td');
+											tdAcc.style.verticalAlign = 'middle';
+						                    tdAcc.style.width = '18%';
+						                    tdAcc.style.whiteSpace = 'nowrap';
+						                    tdAcc.style.padding = '0.25rem';
 											tdAcc.style.textAlign = 'center';
-											var btnDel = document
-													.createElement('button');
+											// --- BOTÓN MODIFICAR ---
+											var btnEdit = document.createElement('button');
+											btnEdit.className = 'btn btn-warning';
+											btnEdit.innerHTML = '<i class="bi bi-pencil-square"></i>';
+											btnEdit.style.fontSize = '1.2rem';
+											btnEdit.style.padding = '0.25rem 0.4rem';
+											btnEdit.style.lineHeight = '1';
+											btnEdit.style.marginRight = '0.35rem';
+											btnEdit.onclick = function () {
+											    abrirModalEditarGrupo(g);
+											};
+
+											// --- BOTÓN ELIMINAR ---
+											var btnDel = document.createElement('button');
 											btnDel.className = 'btn btn-danger';
 											btnDel.innerHTML = '<i class="bi bi-trash"></i>';
-											btnDel.onclick = function() {
-												eliminarGrupo(g.idGrupo);
-											};
 											btnDel.style.fontSize = '1.2rem';
-											btnDel.classList.add('btn',
-													'btn-danger');
 											btnDel.style.padding = '0.25rem 0.4rem';
 											btnDel.style.lineHeight = '1';
+											btnDel.onclick = function () {
+											    eliminarGrupo(g.idGrupo);
+											};
+
+											tdAcc.appendChild(btnEdit);
 											tdAcc.appendChild(btnDel);
+
 
 											tr.appendChild(tdG);
 											tr.appendChild(tdC);
@@ -427,48 +535,204 @@
 			};
 			xhrCursos.send();
 		}
+		
+		function abrirModalEditarCurso(curso) {
+		    document.getElementById('editIdCurso').value = curso.idCurso;
+		    document.getElementById('editNombreCurso').value = curso.nombreCurso;
+
+		    var modal = new bootstrap.Modal(
+		        document.getElementById('modalEditarCurso')
+		    );
+		    modal.show();
+		}
+		
+		
+		function abrirModalEditarGrupo(grupo) {
+		    document.getElementById('editIdGrupo').value = grupo.idGrupo;
+		    document.getElementById('editNombreGrupo').value = grupo.nombreGrupo;
+
+		    // Rellenar select de cursos
+		    var select = document.getElementById('editCursoGrupo');
+		    select.innerHTML = '';
+
+		    var xhr = new XMLHttpRequest();
+		    xhr.open('GET', 'curso', true);
+		    xhr.onreadystatechange = function () {
+		        if (xhr.readyState === 4 && xhr.status === 200) {
+		            var cursos = JSON.parse(xhr.responseText);
+		            cursos.forEach(function (c) {
+		                var option = document.createElement('option');
+		                option.value = c.idCurso;
+		                option.textContent = c.nombreCurso;
+
+		                if (c.nombreCurso === grupo.nombreCurso) {
+		                    option.selected = true;
+		                }
+
+		                select.appendChild(option);
+		            });
+		        }
+		    };
+		    xhr.send();
+
+		    var modal = new bootstrap.Modal(
+		        document.getElementById('modalEditarGrupo')
+		    );
+		    modal.show();
+		}
+
+		
+
 		function guardarCurso() {
-		    var nombreCurso = document.getElementById('nombreCurso').value;
+		    const nombreCurso = document.getElementById('nombreCurso').value;
+
+		    if (!nombreCurso.trim()) {
+		        alert('El nombre del curso es obligatorio');
+		        return false;
+		    }
+
+		    const params =
+		        'accion=guardar' +
+		        '&nombreCurso=' + encodeURIComponent(nombreCurso);
+
+		    const xhr = new XMLHttpRequest();
+		    xhr.open('POST', 'curso', true);
+		    xhr.setRequestHeader(
+		        'Content-Type',
+		        'application/x-www-form-urlencoded'
+		    );
+
+		    xhr.onreadystatechange = function () {
+		        if (xhr.readyState === 4) {
+		            const resp = JSON.parse(xhr.responseText);
+
+		            if (xhr.status === 200 && resp.success) {
+		                alert(resp.mensaje);
+		                document.getElementById('nombreCurso').value = '';
+		                cargarCursosYGrupos(); // refrescar tablas
+		            } else {
+		                alert(resp.mensaje || 'Error al guardar el curso');
+		            }
+		        }
+		    };
+
+		    xhr.send(params);
+		    return false;
+		}
+
+
+		function guardarGrupo() {
+		    const nombreGrupo = document.getElementById('nombreGrupo').value;
+		    const cursoId = document.getElementById('curso').value;
+
+		    // Validaciones
+		    if (!nombreGrupo.trim()) {
+		        alert('El nombre del grupo es obligatorio');
+		        return false;
+		    }
+		    if (!cursoId) {
+		        alert('Debes seleccionar un curso');
+		        return false;
+		    }
+
+		    // Construir parámetros para enviar
+		    const params =
+		        'accion=guardar' +
+		        '&nombreGrupo=' + encodeURIComponent(nombreGrupo) +
+		        '&idCurso=' + encodeURIComponent(cursoId);
+
+		    const xhr = new XMLHttpRequest();
+		    xhr.open('POST', 'grupo', true);
+		    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		    xhr.onreadystatechange = function () {
+		        if (xhr.readyState === 4) {
+		            const resp = JSON.parse(xhr.responseText);
+		            if (xhr.status === 200 && resp.success) {
+		                alert(resp.mensaje);
+		                document.getElementById('nombreGrupo').value = '';
+		                document.getElementById('curso').value = '';
+		                cargarCursosYGrupos(); // refrescar tablas
+		            } else {
+		                alert(resp.mensaje || 'Error al guardar el grupo');
+		            }
+		        }
+		    };
+
+		    xhr.send(params);
+		    return false; // evitar submit normal
+		}
+
+		
+		function modificarCurso() {
+		    var idCurso = document.getElementById('editIdCurso').value;
+		    var nombreCurso = document.getElementById('editNombreCurso').value;
+
+		    var params =
+		        'accion=modificar' +
+		        '&idCurso=' + encodeURIComponent(idCurso) +
+		        '&nombreCurso=' + encodeURIComponent(nombreCurso);
 
 		    var xhr = new XMLHttpRequest();
 		    xhr.open('POST', 'curso', true);
-		    xhr.setRequestHeader('Content-Type', 'application/json');
-		    xhr.onreadystatechange = function() {
-		        if(xhr.readyState === 4 && xhr.status === 200){
-		            alert('Curso guardado correctamente');
-		            cargarCursosYGrupos(); // refrescar tablas
+		    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+		    xhr.onreadystatechange = function () {
+		        if (xhr.readyState === 4) {
+		            var resp = JSON.parse(xhr.responseText);
+		            if (xhr.status === 200 && resp.success) {
+		                alert('Curso modificado correctamente');
+		                bootstrap.Modal.getInstance(
+		                    document.getElementById('modalEditarCurso')
+		                ).hide();
+		                cargarCursosYGrupos();
+		            } else {
+		                alert(resp.mensaje || 'Error al modificar curso');
+		            }
 		        }
 		    };
-		    var data = JSON.stringify({ nombreCurso: nombreCurso, accion: 'guardarCurso' });
-		    xhr.send(data);
 
-		    return false; 
+		    xhr.send(params);
 		}
+		
+		
+		function modificarGrupo() {
+		    var idGrupo = document.getElementById('editIdGrupo').value;
+		    var nombreGrupo = document.getElementById('editNombreGrupo').value;
+		    var idCurso = document.getElementById('editCursoGrupo').value;
 
-		function guardarGrupo() {
-		    var nombreGrupo = document.getElementById('nombreGrupo').value;
-		    var cursoId = document.getElementById('curso').value;
+		    var params =
+		        'accion=modificar' +
+		        '&idGrupo=' + encodeURIComponent(idGrupo) +
+		        '&nombreGrupo=' + encodeURIComponent(nombreGrupo) +
+		        '&idCurso=' + encodeURIComponent(idCurso);
 
 		    var xhr = new XMLHttpRequest();
 		    xhr.open('POST', 'grupo', true);
-		    xhr.setRequestHeader('Content-Type', 'application/json');
-		    xhr.onreadystatechange = function() {
-		        if(xhr.readyState === 4 && xhr.status === 200){
-		            alert('Grupo guardado correctamente');
-		            cargarCursosYGrupos(); // refrescar tablas
+		    xhr.setRequestHeader(
+		        'Content-Type',
+		        'application/x-www-form-urlencoded'
+		    );
+
+		    xhr.onreadystatechange = function () {
+		        if (xhr.readyState === 4) {
+		            var resp = JSON.parse(xhr.responseText);
+		            if (xhr.status === 200 && resp.success) {
+		                alert('Grupo modificado correctamente');
+		                bootstrap.Modal.getInstance(
+		                    document.getElementById('modalEditarGrupo')
+		                ).hide();
+		                cargarCursosYGrupos();
+		            } else {
+		                alert(resp.mensaje || 'Error al modificar grupo');
+		            }
 		        }
 		    };
 
-		    // JSON con los datos del grupo
-		    var data = JSON.stringify({ 
-		        nombreGrupo: nombreGrupo,
-		        cursoId: Number(cursoId) // convertir a número
-		    });
-
-		    xhr.send(data);
-
-		    return false; // evitar submit normal
+		    xhr.send(params);
 		}
+
+
 		
 		window.eliminarCurso = async function(idCurso) {
 		    const confirmacion = prompt('⚠️ Atención: eliminar este curso también eliminará todos los grupos y matriculaciones asociadas. Escribe "CONFIRMAR" para confirmar la eliminación:');

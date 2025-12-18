@@ -337,9 +337,6 @@ public class AsistenciaControlador extends HttpServlet {
 	/**
 	 * Obtiene asistencias por curso y grupo para la fecha actual.
 	 */
-	/**
-	 * Obtiene asistencias por curso y grupo para la fecha actual.
-	 */
 	private void obtenerAsistenciasPorCursoYGrupo(HttpServletRequest request, HttpServletResponse response)
 			throws IOException {
 		try {
@@ -361,9 +358,6 @@ public class AsistenciaControlador extends HttpServlet {
 		}
 	}
 
-	/**
-	 * Obtiene asistencias por curso, grupo y fecha específica.
-	 */
 	/**
 	 * Obtiene asistencias por curso, grupo y fecha específica.
 	 */
@@ -397,9 +391,6 @@ public class AsistenciaControlador extends HttpServlet {
 		}
 	}
 
-	/**
-	 * Obtiene asistencias de un alumno dentro de un rango de fechas.
-	 */
 	/**
 	 * Obtiene asistencias de un alumno dentro de un rango de fechas.
 	 */

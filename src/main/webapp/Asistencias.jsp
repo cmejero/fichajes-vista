@@ -600,7 +600,7 @@ document.addEventListener("DOMContentLoaded", async function() {
 
         const thead = document.createElement('thead');
         const headerRow = document.createElement('tr');
-        const headers = ['PRESENTE', 'COMPLETA', 'SIN SALIDA', 'FALTA'];
+        const headers = ['COMPLETA', 'SIN SALIDA', 'FALTA'];
         headers.forEach(h => {
             const th = document.createElement('th');
             th.textContent = h;

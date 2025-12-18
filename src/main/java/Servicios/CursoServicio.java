@@ -3,10 +3,13 @@ package Servicios;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 import org.json.JSONObject;
+
+import com.google.gson.Gson;
 
 import Dtos.CursoDto;
 import Log.Log;
@@ -28,6 +31,41 @@ public class CursoServicio {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	/**
+	 * Modifica un curso mediante la API REST externa.
+	 *
+	 * @param idCurso ID del curso a modificar.
+	 * @param dto     Objeto con los nuevos datos del curso.
+	 * @return true si la modificación fue exitosa, false en caso contrario.
+	 */
+	public boolean modificarCurso(Long idCurso, CursoDto dto) {
+	    try {
+	        Gson gson = new Gson();
+	        String json = gson.toJson(dto);
+
+	        String urlApi = "http://localhost:9527/api/modificarCurso/" + idCurso;
+	        URL url = new URL(urlApi);
+
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setRequestMethod("PUT");
+	        conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+	        conn.setDoOutput(true);
+
+	        try (OutputStream os = conn.getOutputStream()) {
+	            os.write(json.getBytes("UTF-8"));
+	        }
+
+	        int responseCode = conn.getResponseCode();
+	        return responseCode == HttpURLConnection.HTTP_OK;
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return false;
+	    }
+	}
+
 
 	/**
 	 * Llama a la API externa y devuelve el JSON de los cursos.
@@ -59,6 +97,13 @@ public class CursoServicio {
 		return salida.toString();
 	}
 
+	
+	/**
+	 * Elimina un curso mediante la API REST externa.
+	 *
+	 * @param idCurso ID del curso a eliminar.
+	 * @return true si la eliminación fue exitosa, false en caso contrario.
+	 */
 	public boolean eliminarCurso(Long idCurso) {
 		try {
 			java.net.URI uri = new java.net.URI("http://localhost:9527/api/eliminarCurso/" + idCurso);

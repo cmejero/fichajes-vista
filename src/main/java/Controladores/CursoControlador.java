@@ -1,9 +1,6 @@
 package Controladores;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-
-import com.google.gson.Gson;
 
 import Dtos.CursoDto;
 import Log.Log;
@@ -27,40 +24,119 @@ public class CursoControlador extends HttpServlet {
     private CursoServicio servicio = new CursoServicio();
     
     
+    /**
+     * Maneja peticiones POST hacia /curso. Delegará según la acción: "guardar" o "modificar".
+     *
+     * @param request  Solicitud HTTP con parámetros de acción y datos del curso.
+     * @param response Respuesta HTTP con JSON indicando resultado.
+     * @throws ServletException Si ocurre un error en el servlet.
+     * @throws IOException      Si ocurre un error de entrada/salida.
+     */
     @Override
-    
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         response.setContentType("application/json; charset=UTF-8");
 
-        try (BufferedReader reader = request.getReader()) {
-            // Leer JSON del cuerpo de la petición
-            CursoDto dto = new Gson().fromJson(reader, CursoDto.class);
+        String accion = request.getParameter("accion");
+        Log.ficheroLog("Petición POST recibida en /curso con acción: " + accion);
 
-            // Log de recepción
-            Log.ficheroLog("JSON recibido para guardar curso: " + new Gson().toJson(dto));
+        if ("guardar".equals(accion)) {
+            guardarCurso(request, response);
 
-            // Guardar curso usando tu servicio
+        } else if ("modificar".equals(accion)) {
+            modificarCurso(request, response);
+
+        } else {
+            Log.ficheroLog("Acción POST no reconocida en /curso: " + accion);
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            response.getWriter().write("{\"success\": false, \"mensaje\": \"Acción no válida\"}");
+        }
+    }
+
+    /**
+     * Guarda un nuevo curso.
+     *
+     * @param request  Solicitud HTTP con parámetros del curso.
+     * @param response Respuesta HTTP con JSON indicando resultado.
+     * @throws IOException Si ocurre un error de entrada/salida.
+     */
+    private void guardarCurso(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
+
+        try {
+            String nombreCurso = request.getParameter("nombreCurso");
+
+            if (nombreCurso == null || nombreCurso.trim().isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"success\": false, \"mensaje\": \"El nombre del curso es obligatorio\"}");
+                return;
+            }
+
+            CursoDto dto = new CursoDto();
+            dto.setNombreCurso(nombreCurso);
+
             servicio.guardarCurso(dto);
 
-            // Respuesta al cliente
+            Log.ficheroLog("✅ Curso guardado correctamente: " + nombreCurso);
             response.getWriter().write("{\"success\": true, \"mensaje\": \"Curso guardado correctamente\"}");
-            Log.ficheroLog("✅ Curso guardado correctamente: " + dto.getNombreCurso());
 
         } catch (Exception e) {
-            e.printStackTrace();
             Log.ficheroLog("❌ Error al guardar curso: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"success\": false, \"mensaje\": \"Error al guardar curso\"}");
         }
     }
 
+    /**
+     * Modifica un curso existente.
+     *
+     * @param request  Solicitud HTTP con ID y datos del curso.
+     * @param response Respuesta HTTP con JSON indicando resultado.
+     * @throws IOException Si ocurre un error de entrada/salida.
+     */
+    private void modificarCurso(HttpServletRequest request, HttpServletResponse response)
+            throws IOException {
 
-  
+        try {
+            String idCursoStr = request.getParameter("idCurso");
+
+            if (idCursoStr == null || idCursoStr.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"success\": false, \"mensaje\": \"Falta ID del curso\"}");
+                return;
+            }
+
+            Long idCurso = Long.parseLong(idCursoStr);
+
+            String nombreCurso = request.getParameter("nombreCurso");
+
+            CursoDto dto = new CursoDto();
+            dto.setNombreCurso(nombreCurso);
+
+            boolean modificado = servicio.modificarCurso(idCurso, dto);
+
+            if (modificado) {
+                Log.ficheroLog("✅ Curso modificado correctamente ID: " + idCurso);
+                response.getWriter().write("{\"success\": true, \"mensaje\": \"Curso modificado correctamente\"}");
+            } else {
+                response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                response.getWriter().write("{\"success\": false, \"mensaje\": \"Curso no encontrado\"}");
+            }
+
+        } catch (Exception e) {
+            Log.ficheroLog("❌ Error al modificar curso: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"success\": false, \"mensaje\": \"Error al modificar curso\"}");
+        }
+    }
+
     /**
      * Atiende solicitudes GET para obtener el listado de cursos.
-     * Devuelve el JSON directamente consumido desde la API externa.
+     *
+     * @param request  Solicitud HTTP.
+     * @param response Respuesta HTTP con JSON de cursos.
+     * @throws IOException Si ocurre un error de entrada/salida.
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -76,14 +152,21 @@ public class CursoControlador extends HttpServlet {
             response.getWriter().write("{\"error\":\"No se pudieron cargar los cursos\"}");
         }
     }
-    
+
+    /**
+     * Atiende solicitudes DELETE para eliminar un curso por ID.
+     *
+     * @param request  Solicitud HTTP con parámetro "id".
+     * @param response Respuesta HTTP con JSON indicando resultado.
+     * @throws ServletException Si ocurre un error en el servlet.
+     * @throws IOException      Si ocurre un error de entrada/salida.
+     */
     @Override
     protected void doDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         response.setContentType("application/json; charset=UTF-8");
 
-        // Leer ID del curso de la query string: /curso?id=123
         String idParam = request.getParameter("id");
         if (idParam != null) {
             try {
@@ -108,5 +191,6 @@ public class CursoControlador extends HttpServlet {
             response.getWriter().write("{\"success\": false, \"mensaje\": \"Falta parámetro ID\"}");
         }
     }
+
 
 }
