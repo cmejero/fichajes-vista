@@ -20,19 +20,22 @@ import Log.Log;
  */
 public class CursoServicio {
 
-
+	/**
+	 * Envía los datos de un curso al API para guardarlo.
+	 *
+	 * @param dto Objeto CursoDto que contiene la información del curso a guardar.
+	 */
 	public void guardarCurso(CursoDto dto) {
 		try {
 			JSONObject json = new JSONObject();
 			json.put("nombreCurso", dto.getNombreCurso());
-			String resp = ejecutarPost( "http://localhost:9527/api/guardarCurso", json);
+			String resp = ejecutarPost("http://localhost:9527/api/guardarCurso", json);
 
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	/**
 	 * Modifica un curso mediante la API REST externa.
 	 *
@@ -41,31 +44,30 @@ public class CursoServicio {
 	 * @return true si la modificación fue exitosa, false en caso contrario.
 	 */
 	public boolean modificarCurso(Long idCurso, CursoDto dto) {
-	    try {
-	        Gson gson = new Gson();
-	        String json = gson.toJson(dto);
+		try {
+			Gson gson = new Gson();
+			String json = gson.toJson(dto);
 
-	        String urlApi = "http://localhost:9527/api/modificarCurso/" + idCurso;
-	        URL url = new URL(urlApi);
+			String urlApi = "http://localhost:9527/api/modificarCurso/" + idCurso;
+			URL url = new URL(urlApi);
 
-	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	        conn.setRequestMethod("PUT");
-	        conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-	        conn.setDoOutput(true);
+			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+			conn.setRequestMethod("PUT");
+			conn.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
+			conn.setDoOutput(true);
 
-	        try (OutputStream os = conn.getOutputStream()) {
-	            os.write(json.getBytes("UTF-8"));
-	        }
+			try (OutputStream os = conn.getOutputStream()) {
+				os.write(json.getBytes("UTF-8"));
+			}
 
-	        int responseCode = conn.getResponseCode();
-	        return responseCode == HttpURLConnection.HTTP_OK;
+			int responseCode = conn.getResponseCode();
+			return responseCode == HttpURLConnection.HTTP_OK;
 
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	        return false;
-	    }
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
-
 
 	/**
 	 * Llama a la API externa y devuelve el JSON de los cursos.
@@ -97,7 +99,6 @@ public class CursoServicio {
 		return salida.toString();
 	}
 
-	
 	/**
 	 * Elimina un curso mediante la API REST externa.
 	 *

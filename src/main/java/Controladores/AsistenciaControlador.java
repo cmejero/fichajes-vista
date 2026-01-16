@@ -39,20 +39,14 @@ public class AsistenciaControlador extends HttpServlet {
 	}
 
 	/**
-	 * Maneja las solicitudes POST para la entidad Asistencia.
-	 * <p>
-	 * Dependiendo del parámetro "accion" recibido en la solicitud, este método:
-	 * 
-	 * Envía la respuesta en formato JSON e informa de errores si la acción no es
-	 * válida o ocurre una excepción.
+	 * Maneja solicitudes POST para el endpoint de asistencia.
+	 * Determina la acción a ejecutar según el parámetro "accion" y devuelve
+	 * una respuesta JSON indicando éxito o error.
 	 *
-	 * @param request  Objeto HttpServletRequest que contiene los parámetros
-	 *                 enviados desde el formulario.
-	 * @param response Objeto HttpServletResponse para enviar la respuesta en
-	 *                 formato JSON.
-	 * @throws ServletException Si ocurre un error de servlet.
-	 * @throws IOException      Si ocurre un error de entrada/salida al escribir la
-	 *                          respuesta.
+	 * @param request  HttpServletRequest con los datos de la solicitud.
+	 * @param response HttpServletResponse para enviar la respuesta JSON.
+	 * @throws ServletException En caso de error en el servlet.
+	 * @throws IOException      En caso de error de entrada/salida.
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -104,16 +98,6 @@ public class AsistenciaControlador extends HttpServlet {
 	}
 
 
-
-	/**
-	 * 
-	 * Modifica una asistencia existente según los parámetros recibidos.
-	 *
-	 * @param request  Contiene idAsistencia, horaEntrada, horaSalida, estado y
-	 *                 justificarModificacion.
-	 * @param response Respuesta JSON indicando éxito o fallo de la modificación.
-	 * @throws IOException Si ocurre un error al escribir la respuesta.
-	 */
 	/**
 	 * Modifica una asistencia existente según los parámetros recibidos.
 	 *

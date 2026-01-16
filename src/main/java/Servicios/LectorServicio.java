@@ -7,6 +7,10 @@ import java.net.URL;
 
 import org.json.JSONObject;
 
+
+/**
+ * Servicio que consulta la API del lector NFC y devuelve información sobre la UID detectada.
+ */
 public class LectorServicio {
 
 	
@@ -50,8 +54,8 @@ public class LectorServicio {
 		}
 
 
-	    /**
-	     * Clase para devolver los datos del lector de manera estructurada
+	  /**
+	     * Clase interna que representa el resultado de la consulta al lector NFC.
 	     */
 	    public static class ResultadoLector {
 	        private boolean hayUid;
