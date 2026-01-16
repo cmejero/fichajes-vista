@@ -37,23 +37,30 @@ public class GrupoControlador extends HttpServlet {
 
         response.setContentType("application/json; charset=UTF-8");
 
-        String accion = request.getParameter("accion");
-        Log.ficheroLog("Petición POST recibida en /grupo con acción: " + accion);
+        try {
+            String accion = request.getParameter("accion");
+            Log.ficheroLog("Petición POST recibida en /grupo con acción: " + accion);
 
-        if ("guardar".equals(accion)) {
-            guardarGrupo(request, response);
+            if ("guardar".equals(accion)) {
+                guardarGrupo(request, response);
 
-        } else if ("modificar".equals(accion)) {
-            modificarGrupo(request, response);
+            } else if ("modificar".equals(accion)) {
+                modificarGrupo(request, response);
 
-        } else {
-            Log.ficheroLog("Acción POST no reconocida en /grupo: " + accion);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write(
-                "{\"success\": false, \"mensaje\": \"Acción no válida\"}"
-            );
+            } else {
+                Log.ficheroLog("Acción POST no reconocida en /grupo: " + accion);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"success\": false, \"mensaje\": \"Acción no válida\"}");
+            }
+
+        } catch (Exception e) {
+            Log.ficheroLog("Error al procesar petición POST en /grupo: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"success\": false, \"mensaje\": \"Error interno del servidor\"}");
+            e.printStackTrace(); // opcional, útil para depuración
         }
     }
+
 
     /**
      * Guarda un nuevo grupo.

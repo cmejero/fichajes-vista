@@ -35,23 +35,32 @@ public class AlumnoControlador extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
 
-	    String accion = request.getParameter("accion");
-	    Log.ficheroLog("Petición POST recibida en /alumno con acción: " + accion);
+	    response.setContentType("application/json; charset=UTF-8");
 
-	    if ("guardar".equals(accion)) {
-	        guardarAlumno(request, response);
+	    try {
+	        String accion = request.getParameter("accion");
+	        Log.ficheroLog("Petición POST recibida en /alumno con acción: " + accion);
 
-	    } else if ("modificar".equals(accion)) {
-	        modificarAlumno(request, response);
+	        if ("guardar".equals(accion)) {
+	            guardarAlumno(request, response);
 
-	    } else {
-	        Log.ficheroLog("Acción POST no reconocida en /alumno: " + accion);
-	        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-	        response.getWriter().write("{\"success\": false, \"mensaje\": \"Acción no válida\"}");
+	        } else if ("modificar".equals(accion)) {
+	            modificarAlumno(request, response);
+
+	        } else {
+	            Log.ficheroLog("Acción POST no reconocida en /alumno: " + accion);
+	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	            response.getWriter().write("{\"success\": false, \"mensaje\": \"Acción no válida\"}");
+	        }
+
+	    } catch (Exception e) {
+	        Log.ficheroLog("Error al procesar petición POST en /alumno: " + e.getMessage());
+	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	        response.getWriter().write("{\"success\": false, \"mensaje\": \"Error interno del servidor\"}");
+	        e.printStackTrace(); // opcional, útil para desarrollo
 	    }
 	}
-	
-	
+
 
 
 	/**

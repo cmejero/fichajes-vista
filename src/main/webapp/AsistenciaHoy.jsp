@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Inicio - Colegio Altair Sevilla</title>
+<title>Asistencia diaria - Colegio Altair Sevilla</title>
 <link rel="stylesheet" href="Css/Estilo.css">
 <!-- Bootstrap CSS (solo una vez) -->
 <link
@@ -151,7 +151,6 @@
 
 	</footer>
 
-	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 	
 	<script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -407,6 +406,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 </script>
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"

@@ -60,7 +60,9 @@
 		<section class="tabla-asistencia container shadow p-4 rounded">
 			<div class="row">
 				<div class="col-12">
-					<h1 class="titulo-asistencia mt-3"><u>GESTIÓN DE ALUMNOS</u></h1>
+					<h1 class="titulo-asistencia mt-3">
+						<u>GESTIÓN DE ALUMNOS</u>
+					</h1>
 				</div>
 			</div>
 
@@ -419,16 +421,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function cargarAnios(selectAnio) {
         selectAnio.innerHTML = '<option value="">Seleccione...</option>';
-        const currentYear = new Date().getFullYear();
+
+        const hoy = new Date();
+        const anioActual = hoy.getFullYear();
+        const mesActual = hoy.getMonth(); // 0 = enero, 8 = septiembre
+
+        // Si estamos antes de septiembre, el curso empezó el año anterior
+        const anioInicioCurso = mesActual < 8
+            ? anioActual - 1
+            : anioActual;
+
+        // Generamos varios cursos a partir del actual
         for (let i = 0; i < 5; i++) {
-            const start = currentYear + i;
+            const start = anioInicioCurso + i;
             const end = start + 1;
+
             const option = document.createElement('option');
             option.value = start + "-" + end;
             option.textContent = start + "-" + end;
             selectAnio.appendChild(option);
         }
     }
+
 
     async function cargarCursos() {
         try {
@@ -1069,9 +1083,117 @@ window.eliminarMatricula = function(idMatriculacion) {
      // Cargar grupos del curso seleccionado
      cargarGrupos(cursoId, selectGrupo);
  });
+ 
+ 
+ let uidActual = null; // Última UID válida leída
 
+ setInterval(() => {
+     fetch('<%=request.getContextPath()%>/leerUid?modo=formulario')
+         .then(res => res.json())
+         .then(data => {
+             if (!data.hayUid || !data.uid) return; // ignorar vacíos
 
+             uidActual = data.uid; // siempre guardamos la última UID
+
+             // --- Formulario Agregar Alumno ---
+             const formAgregar = document.getElementById('formAgregarAlumno');
+             if (formAgregar && formAgregar.style.display === 'block') {
+                 document.getElementById('uidLlave').value = uidActual;
+                 document.getElementById('nombre').focus();
+
+                 let mensaje = document.getElementById('mensajeAgregarAlumno');
+                 if (!mensaje) {
+                     mensaje = document.createElement('div');
+                     mensaje.id = 'mensajeAgregarAlumno';
+                     mensaje.style.marginTop = '5px';
+                     mensaje.style.color = '';
+                     mensaje.style.fontSize = '2vw';
+                     formAgregar.appendChild(mensaje);
+                 }
+
+                 mensaje.style.display = data.registrado ? 'block' : 'none';
+                 mensaje.innerHTML = data.registrado
+                 ? '<span style="color:#015b96;">Esta UID ya está asociada a: </span>'
+                     + '<span style="color:#333; font-weight:600;">' + data.alumno + '</span>'
+                     + '<span style="color:#015b96;">, Curso: </span>'
+                     + '<span style="color:#333; font-weight:600;">' + data.curso + '</span>'
+                     + '<span style="color:#015b96;">, Grupo: </span>'
+                     + '<span style="color:#333; font-weight:600;">' + data.grupo + '</span>'
+                 : '';
+
+             }
+
+             // --- Formulario Matricular ---
+             const formMatricular = document.getElementById('formMatricular');
+             if (formMatricular && formMatricular.style.display === 'block') {
+                 document.getElementById('uidLlaveMat').value = uidActual;
+                 document.getElementById('nombreYApellidos').focus();
+
+                 let mensaje = document.getElementById('mensajeMatricular');
+                 if (!mensaje) {
+                     mensaje = document.createElement('div');
+                     mensaje.id = 'mensajeMatricular';
+                     mensaje.style.marginTop = '5px';
+                     mensaje.style.color = '';
+                     mensaje.style.fontSize = '2vw';
+                     formMatricular.appendChild(mensaje);
+                 }
+
+                 mensaje.style.display = data.registrado ? 'block' : 'none';
+                 mensaje.innerHTML = data.registrado
+                 ? '<span style="color:#015b96;">Esta UID ya está asociada a: </span>'
+                     + '<span style="color:#333; font-weight:600;">' + data.alumno + '</span>'
+                     + '<span style="color:#015b96;">, Curso: </span>'
+                     + '<span style="color:#333; font-weight:600;">' + data.curso + '</span>'
+                     + '<span style="color:#015b96;">, Grupo: </span>'
+                     + '<span style="color:#333; font-weight:600;">' + data.grupo + '</span>'
+                 : '';
+
+             }
+
+             // --- Modal Alumno ---
+             const modalAlumno = document.getElementById('modalEditarAlumno');
+             if (modalAlumno && modalAlumno.classList.contains('show')) { // check si está abierto
+                 const uidInput = document.getElementById('uidEditarAlumno'); // input hidden en el modal
+                 if (uidInput) uidInput.value = uidActual;
+
+                 const mensaje = document.getElementById('mensajeModificacionAlumno');
+                 if (mensaje) {
+                     mensaje.style.display = data.registrado ? 'block' : 'none';
+                     mensaje.textContent = data.registrado
+                         ? "Esta UID ya está asociada a: " + data.alumno + ", Curso: " + data.curso + ", Grupo: " + data.grupo
+                         : "";
+                 }
+             }
+
+             // --- Modal Matriculación ---
+             const modalMatricula = document.getElementById('modalEditarMatriculacion');
+             if (modalMatricula && modalMatricula.classList.contains('show')) {
+                 const uidInput = document.getElementById('uidEditar'); // input que ya tienes
+                 if (uidInput) uidInput.value = uidActual;
+
+                 const mensaje = document.getElementById('mensajeModificacionMatriculacion');
+                 if (mensaje) {
+                     mensaje.style.display = data.registrado ? 'block' : 'none';
+                     mensaje.style.color = '';
+                     mensaje.style.fontSize = '2vw';
+                     mensaje.innerHTML = data.registrado
+                     ? '<span style="color:#015b96;">Esta UID ya está asociada a: </span>'
+                         + '<span style="color:#333; font-weight:600;">' + data.alumno + '</span>'
+                         + '<span style="color:#015b96;">, Curso: </span>'
+                         + '<span style="color:#333; font-weight:600;">' + data.curso + '</span>'
+                         + '<span style="color:#015b96;">, Grupo: </span>'
+                         + '<span style="color:#333; font-weight:600;">' + data.grupo + '</span>'
+                     : '';
+
+                 }
+             }
+
+         })
+         .catch(err => console.error("Error consultando lector: ", err));
+ }, 2000);
 });
+
 </script>
 
 

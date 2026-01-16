@@ -26,31 +26,7 @@ public class AsistenciaServicio {
 
     // ---------------- POST ----------------
 
-    /**
-     * Registra la entrada de un alumno a partir de su ID de matriculación.
-     *
-     * @param matriculacionId ID de la matriculación del alumno.
-     * @return Objeto AsistenciaDto con los datos de la asistencia registrada.
-     * @throws Exception Si ocurre un error en la llamada HTTP o en el parseo de la respuesta.
-     */
-    public AsistenciaDto ficharEntrada(Long matriculacionId) throws Exception {
-        String url = BASE_API + "/asistencia/entrada/" + matriculacionId;
-        String resp = ejecutarPost(url, null);
-        return parseAsistencia(resp);
-    }
 
-    /**
-     * Registra la salida de un alumno a partir de su ID de matriculación.
-     *
-     * @param matriculacionId ID de la matriculación del alumno.
-     * @return Objeto AsistenciaDto con los datos de la asistencia registrada.
-     * @throws Exception Si ocurre un error en la llamada HTTP o en el parseo de la respuesta.
-     */
-    public AsistenciaDto ficharSalida(Long matriculacionId) throws Exception {
-        String url = BASE_API + "/asistencia/salida/" + matriculacionId;
-        String resp = ejecutarPut(url, null);
-        return parseAsistencia(resp);
-    }
 
     /**
      * Modifica una asistencia existente con los datos proporcionados.

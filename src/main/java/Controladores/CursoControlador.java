@@ -38,21 +38,30 @@ public class CursoControlador extends HttpServlet {
 
         response.setContentType("application/json; charset=UTF-8");
 
-        String accion = request.getParameter("accion");
-        Log.ficheroLog("Petición POST recibida en /curso con acción: " + accion);
+        try {
+            String accion = request.getParameter("accion");
+            Log.ficheroLog("Petición POST recibida en /curso con acción: " + accion);
 
-        if ("guardar".equals(accion)) {
-            guardarCurso(request, response);
+            if ("guardar".equals(accion)) {
+                guardarCurso(request, response);
 
-        } else if ("modificar".equals(accion)) {
-            modificarCurso(request, response);
+            } else if ("modificar".equals(accion)) {
+                modificarCurso(request, response);
 
-        } else {
-            Log.ficheroLog("Acción POST no reconocida en /curso: " + accion);
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"success\": false, \"mensaje\": \"Acción no válida\"}");
+            } else {
+                Log.ficheroLog("Acción POST no reconocida en /curso: " + accion);
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("{\"success\": false, \"mensaje\": \"Acción no válida\"}");
+            }
+
+        } catch (Exception e) {
+            Log.ficheroLog("Error al procesar petición POST en /curso: " + e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.getWriter().write("{\"success\": false, \"mensaje\": \"Error interno del servidor\"}");
+            e.printStackTrace(); 
         }
     }
+
 
     /**
      * Guarda un nuevo curso.

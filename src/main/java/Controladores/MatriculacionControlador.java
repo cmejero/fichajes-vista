@@ -32,19 +32,30 @@ public class MatriculacionControlador extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 	        throws ServletException, IOException {
 
-	    String accion = request.getParameter("accion");
-	    Log.ficheroLog("Petición POST recibida en /matriculacion con acción: " + accion);
+	    response.setContentType("application/json; charset=UTF-8");
 
-	    if ("guardar".equals(accion)) {
-	        guardarMatriculacion(request, response);
-	    } else if ("modificar".equals(accion)) {
-	        modificarMatriculacion(request, response);
-	    } else {
-	        Log.ficheroLog("Acción POST no reconocida en /matriculacion: " + accion);
-	        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-	        response.getWriter().write("{\"success\": false, \"mensaje\": \"Acción no válida\"}");
+	    try {
+	        String accion = request.getParameter("accion");
+	        Log.ficheroLog("Petición POST recibida en /matriculacion con acción: " + accion);
+
+	        if ("guardar".equals(accion)) {
+	            guardarMatriculacion(request, response);
+	        } else if ("modificar".equals(accion)) {
+	            modificarMatriculacion(request, response);
+	        } else {
+	            Log.ficheroLog("Acción POST no reconocida en /matriculacion: " + accion);
+	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	            response.getWriter().write("{\"success\": false, \"mensaje\": \"Acción no válida\"}");
+	        }
+
+	    } catch (Exception e) {
+	        Log.ficheroLog("Error al procesar petición POST en /matriculacion: " + e.getMessage());
+	        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+	        response.getWriter().write("{\"success\": false, \"mensaje\": \"Error interno del servidor\"}");
+	        e.printStackTrace(); // útil para depuración
 	    }
 	}
+
 
 	/**
 	 * 

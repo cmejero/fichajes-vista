@@ -66,12 +66,7 @@ public class AsistenciaControlador extends HttpServlet {
 			Log.ficheroLog("➡️ [POST] Usuario accede a /asistencia, acción=" + accion);
 
 			switch (accion.toLowerCase()) {
-			case "entrada":
-				ficharEntrada(request, response);
-				break;
-			case "salida":
-				ficharSalida(request, response);
-				break;
+	
 			case "modificar":
 				modificarAsistencia(request, response);
 				break;
@@ -108,50 +103,7 @@ public class AsistenciaControlador extends HttpServlet {
 		Log.ficheroLog(logMsg);
 	}
 
-	/**
-	 * 
-	 * Ficha la entrada de un alumno según su matriculación.
-	 *
-	 * @param request  Contiene el parámetro matriculacionId.
-	 * @param response Respuesta con JSON de la asistencia registrada.
-	 * @throws IOException Si ocurre un error al escribir la respuesta.
-	 */
-	private void ficharEntrada(HttpServletRequest request, HttpServletResponse response) throws IOException, Exception {
-		Long matriculacionId = Long.parseLong(request.getParameter("matriculacionId"));
-		Log.ficheroLog("⏰ [ENTRADA] Usuario intenta fichar entrada para matriculacionId=" + matriculacionId);
 
-		AsistenciaDto asistencia = asistenciaServicio.ficharEntrada(matriculacionId);
-		String json = convertirAsistenciaAJson(asistencia);
-
-		escribirRespuesta(response, json,
-				"✅ [ENTRADA OK] Usuario fichó entrada correctamente para matriculacionId=" + matriculacionId);
-	}
-
-	/**
-	 * 
-	 * Ficha la salida de un alumno según su matriculación.
-	 *
-	 * @param request  Contiene el parámetro matriculacionId.
-	 * @param response Respuesta con JSON de la asistencia registrada.
-	 * @throws IOException Si ocurre un error al escribir la respuesta.
-	 */
-	private void ficharSalida(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		try {
-			Long matriculacionId = Long.parseLong(request.getParameter("matriculacionId"));
-			Log.ficheroLog("⏳ [SALIDA] Usuario intenta fichar salida para matriculacionId=" + matriculacionId);
-
-			AsistenciaDto asistencia = asistenciaServicio.ficharSalida(matriculacionId);
-			String json = convertirAsistenciaAJson(asistencia);
-
-			escribirRespuesta(response, json,
-					"✅ [SALIDA OK] Usuario fichó salida correctamente para matriculacionId=" + matriculacionId);
-
-		} catch (Exception e) {
-			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			escribirRespuesta(response, "{\"success\": false, \"error\": \"Error al fichar salida\"}",
-					"🔥 [SALIDA ERROR] " + e.getMessage());
-		}
-	}
 
 	/**
 	 * 
