@@ -167,27 +167,34 @@ public class MatriculacionControlador extends HttpServlet {
      * @throws ServletException Si ocurre un error de servlet.
      * @throws IOException      Si ocurre un error de entrada/salida.
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	        throws ServletException, IOException {
 
-        response.setContentType("application/json; charset=UTF-8");
+	    response.setContentType("application/json; charset=UTF-8");
 
-        String idAlumnoParam = request.getParameter("idAlumno");
-        if (idAlumnoParam != null) {
-            try {
-                Long idAlumno = Long.parseLong(idAlumnoParam);
-                String json = servicio.obtenerMatriculacionesPorAlumno(idAlumno);
-                response.getWriter().write(json);
-            } catch (NumberFormatException e) {
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write("{\"error\":\"ID inválido\"}");
-            }
-        } else {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("{\"error\":\"Falta el parámetro idAlumno\"}");
-        }
-    }
+	    Log.ficheroLog("➡️ Solicitud para obtener matriculaciones por alumno");
+
+	    String idAlumnoParam = request.getParameter("idAlumno");
+	    if (idAlumnoParam != null) {
+	        try {
+	            Long idAlumno = Long.parseLong(idAlumnoParam);
+	            String json = servicio.obtenerMatriculacionesPorAlumno(idAlumno);
+
+	            Log.ficheroLog("✅ Matriculaciones obtenidas correctamente para AlumnoID: " + idAlumno);
+	            response.getWriter().write(json);
+
+	        } catch (NumberFormatException e) {
+	            Log.ficheroLog("❌ Error: ID inválido: " + idAlumnoParam);
+	            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	            response.getWriter().write("{\"error\":\"ID inválido\"}");
+	        }
+	    } else {
+	        Log.ficheroLog("❌ Error: falta parámetro idAlumno");
+	        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	        response.getWriter().write("{\"error\":\"Falta el parámetro idAlumno\"}");
+	    }
+	}
 
     
     @Override
@@ -204,6 +211,8 @@ public class MatriculacionControlador extends HttpServlet {
 
         response.setContentType("application/json; charset=UTF-8");
 
+        Log.ficheroLog("➡️ Solicitud para eliminar matriculación");
+
         // Leer el ID desde el query string
         String idParam = request.getParameter("id");
 
@@ -213,16 +222,20 @@ public class MatriculacionControlador extends HttpServlet {
                 boolean eliminado = servicio.eliminarMatriculacion(idMatriculacion);
 
                 if (eliminado) {
+                    Log.ficheroLog("✅ Matrícula eliminada correctamente ID: " + idMatriculacion);
                     response.getWriter().write("{\"success\": true, \"mensaje\": \"Matrícula eliminada correctamente\"}");
                 } else {
+                    Log.ficheroLog("⚠️ Matrícula no encontrada ID: " + idMatriculacion);
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                     response.getWriter().write("{\"success\": false, \"mensaje\": \"Matrícula no encontrada\"}");
                 }
             } catch (NumberFormatException e) {
+                Log.ficheroLog("❌ Error: ID inválido: " + idParam);
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 response.getWriter().write("{\"success\": false, \"mensaje\": \"ID inválido\"}");
             }
         } else {
+            Log.ficheroLog("❌ Error: Falta el parámetro id");
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("{\"success\": false, \"mensaje\": \"Falta el parámetro id\"}");
         }

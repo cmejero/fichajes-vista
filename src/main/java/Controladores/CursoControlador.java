@@ -153,14 +153,22 @@ public class CursoControlador extends HttpServlet {
 
         response.setContentType("application/json; charset=UTF-8");
 
+        Log.ficheroLog("➡️ Solicitud para obtener cursos desde API");
+
         try {
             String json = servicio.obtenerCursosDesdeAPI();
+
+            Log.ficheroLog("✅ Cursos cargados correctamente desde API");
             response.getWriter().write(json);
+
         } catch (Exception e) {
+            Log.ficheroLog("❌ Error al cargar cursos desde API: " + e.getMessage());
+
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"error\":\"No se pudieron cargar los cursos\"}");
         }
     }
+
 
     /**
      * Atiende solicitudes DELETE para eliminar un curso por ID.

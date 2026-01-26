@@ -1085,6 +1085,7 @@ window.eliminarMatricula = function(idMatriculacion) {
  });
  
  
+ 
  let uidActual = null; // Última UID válida leída
 
  setInterval(() => {
@@ -1107,7 +1108,7 @@ window.eliminarMatricula = function(idMatriculacion) {
                      mensaje.id = 'mensajeAgregarAlumno';
                      mensaje.style.marginTop = '5px';
                      mensaje.style.color = '';
-                     mensaje.style.fontSize = '2vw';
+                     mensaje.style.fontSize = '1.5vw';
                      formAgregar.appendChild(mensaje);
                  }
 
@@ -1135,7 +1136,7 @@ window.eliminarMatricula = function(idMatriculacion) {
                      mensaje.id = 'mensajeMatricular';
                      mensaje.style.marginTop = '5px';
                      mensaje.style.color = '';
-                     mensaje.style.fontSize = '2vw';
+                     mensaje.style.fontSize = '1.5vw';
                      formMatricular.appendChild(mensaje);
                  }
 
@@ -1176,7 +1177,7 @@ window.eliminarMatricula = function(idMatriculacion) {
                  if (mensaje) {
                      mensaje.style.display = data.registrado ? 'block' : 'none';
                      mensaje.style.color = '';
-                     mensaje.style.fontSize = '2vw';
+                     mensaje.style.fontSize = '1.5vw';
                      mensaje.innerHTML = data.registrado
                      ? '<span style="color:#015b96;">Esta UID ya está asociada a: </span>'
                          + '<span style="color:#333; font-weight:600;">' + data.alumno + '</span>'
@@ -1192,6 +1193,7 @@ window.eliminarMatricula = function(idMatriculacion) {
          })
          .catch(err => console.error("Error consultando lector: ", err));
  }, 2000);
+
 });
 
 </script>

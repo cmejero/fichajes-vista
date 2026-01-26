@@ -15,7 +15,7 @@ import Utilidades.Utilidades;
 public class Log {
 	 private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-	    private static final String RUTA_BASE_LOGS = "C:\\Users\\Carlo\\OneDrive\\Escritorio\\FICHEROS\\fichajes-vista-Log\\";
+	    private static final String RUTA_BASE_LOGS = "/home/altair/Desktop/Ficheros/Ficheros-Vista/";
 
 	    /**
 	     * Escribe un mensaje en un archivo de log con un timestamp.

@@ -178,12 +178,16 @@ public class GrupoControlador extends HttpServlet {
 
         response.setContentType("application/json; charset=UTF-8");
 
+        Log.ficheroLog("➡️ Solicitud para obtener grupos desde API");
+
         try {
-            String pathInfo = request.getPathInfo(); 
+            String pathInfo = request.getPathInfo();
 
             if (pathInfo == null || pathInfo.equals("/")) {
                 // Sin ID → obtenemos todos los grupos
                 String json = servicio.obtenerTodosGruposDesdeAPI();
+
+                Log.ficheroLog("✅ Grupos obtenidos correctamente (todos)");
                 response.getWriter().write(json);
                 return;
             }
@@ -191,16 +195,21 @@ public class GrupoControlador extends HttpServlet {
             // Con ID → obtenemos grupos de un curso concreto
             Long idCurso = Long.parseLong(pathInfo.substring(1));
             String json = servicio.obtenerGruposPorCursoDesdeAPI(idCurso);
+
+            Log.ficheroLog("✅ Grupos obtenidos correctamente para CursoID: " + idCurso);
             response.getWriter().write(json);
 
         } catch (NumberFormatException e) {
+            Log.ficheroLog("❌ Error: ID inválido en pathInfo: " + request.getPathInfo());
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("{\"error\":\"ID inválido\"}");
         } catch (Exception e) {
+            Log.ficheroLog("❌ Error al cargar grupos desde API: " + e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.getWriter().write("{\"error\":\"No se pudieron cargar los grupos\"}");
         }
     }
+
 
     
     
